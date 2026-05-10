@@ -6,7 +6,7 @@ import { LogOut } from "lucide-react";
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "Διαχείριση — Καλλιτέχνον Ποιώ" },
+      { title: "Διαχείριση — Καλλίτεχνον Ποιώ" },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
@@ -30,7 +30,7 @@ function AdminLayout() {
     <div className="min-h-screen bg-muted/30">
       <header className="border-b border-border bg-card">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <Link to="/" className="font-display text-lg">Καλλιτέχνον Ποιώ <span className="text-sm text-muted-foreground">/ admin</span></Link>
+          <Link to="/" className="font-display text-lg">Καλλίτεχνον Ποιώ <span className="text-sm text-muted-foreground">/ admin</span></Link>
           <nav aria-label="Διαχείριση" className="flex items-center gap-2">
             <Link to="/admin" className={`rounded-md px-3 py-1.5 text-sm ${path === "/admin" ? "bg-accent" : ""}`}>Εργαστήρια</Link>
             <Link to="/admin/announcements" className={`rounded-md px-3 py-1.5 text-sm ${path.startsWith("/admin/announcements") ? "bg-accent" : ""}`}>Ανακοινώσεις</Link>

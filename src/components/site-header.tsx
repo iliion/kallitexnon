@@ -20,7 +20,7 @@ export function SiteHeader() {
         <Link to="/" className="flex items-center gap-2" aria-label="Αρχική σελίδα">
           <span aria-hidden className="grid h-9 w-9 place-items-center rounded-full bg-[var(--lavender)] text-primary font-display text-lg">Κ</span>
           <span className="font-display text-lg leading-tight">
-            Καλλιτέχνον <span className="text-primary">Ποιώ</span>
+            Καλλίτεχνον <span className="text-primary">Ποιώ</span>
           </span>
         </Link>
 

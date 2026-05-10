@@ -51,9 +51,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Καλλιτέχνον Ποιώ — Εργαστήρι Τέχνης στο Βέλο Κορινθίας" },
+      { title: "Καλλίτεχνον Ποιώ — Εργαστήρι Τέχνης στο Βέλο Κορινθίας" },
       { name: "description", content: "Δημιουργικό εργαστήρι τέχνης στο Βέλο Κορινθίας. Εικαστικά workshops, παιδικά πάρτι γενεθλίων, βραδιές τέχνης για ενηλίκους." },
-      { property: "og:title", content: "Καλλιτέχνον Ποιώ" },
+      { property: "og:title", content: "Καλλίτεχνον Ποιώ" },
       { property: "og:description", content: "Η τέχνη γίνεται εμπειρία." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

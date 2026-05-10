@@ -5,9 +5,9 @@ import { useState } from "react";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Επικοινωνία — Καλλιτέχνον Ποιώ" },
-      { name: "description", content: "Επικοινωνήστε με το Καλλιτέχνον Ποιώ. Βέλο Κορινθίας." },
-      { property: "og:title", content: "Επικοινωνία — Καλλιτέχνον Ποιώ" },
+      { title: "Επικοινωνία — Καλλίτεχνον Ποιώ" },
+      { name: "description", content: "Επικοινωνήστε με το Καλλίτεχνον Ποιώ. Βέλο Κορινθίας." },
+      { property: "og:title", content: "Επικοινωνία — Καλλίτεχνον Ποιώ" },
       { property: "og:description", content: "Στείλτε μας μήνυμα." },
     ],
   }),

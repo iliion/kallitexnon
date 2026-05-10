@@ -7,9 +7,9 @@ import { Sparkles, Palette, BookOpen, ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Καλλιτέχνον Ποιώ — Η τέχνη γίνεται εμπειρία" },
-      { name: "description", content: "Καλώς ήρθατε στον κόσμο του Καλλιτέχνον Ποιώ. Δημιουργικό εργαστήρι τέχνης στο Βέλο Κορινθίας." },
-      { property: "og:title", content: "Καλλιτέχνον Ποιώ" },
+      { title: "Καλλίτεχνον Ποιώ — Η τέχνη γίνεται εμπειρία" },
+      { name: "description", content: "Καλώς ήρθατε στον κόσμο του Καλλίτεχνον Ποιώ. Δημιουργικό εργαστήρι τέχνης στο Βέλο Κορινθίας." },
+      { property: "og:title", content: "Καλλίτεχνον Ποιώ" },
       { property: "og:description", content: "Η τέχνη γίνεται εμπειρία." },
     ],
   }),
@@ -28,7 +28,7 @@ function HomePage() {
           <div className="flex flex-col justify-center">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Βέλο Κορινθίας</p>
             <h1 className="mt-3 font-display text-4xl leading-tight md:text-6xl">
-              Καλώς ήρθατε στον κόσμο του <span className="text-primary">Καλλιτέχνον Ποιώ</span>
+              Καλώς ήρθατε στον κόσμο του <span className="text-primary">Καλλίτεχνον Ποιώ</span>
             </h1>
             <p className="mt-5 max-w-xl text-lg text-foreground/80">
               Εδώ, η τέχνη γίνεται εμπειρία. Θεματικά εικαστικά workshops για όλες τις ηλικίες — ιστορία, αφήγηση και δημιουργία σε έναν χώρο.
@@ -129,7 +129,7 @@ function HomePage() {
           Πιστεύουμε πως μέσα σε κάθε άνθρωπο υπάρχει ένας δημιουργός που περιμένει τον κατάλληλο χώρο και το κατάλληλο ερέθισμα για να εκφραστεί.
         </p>
         <p className="mt-4 text-lg text-foreground/80">
-          Στο Καλλιτέχνον Ποιώ, η τέχνη γίνεται αφορμή για γνώση, χαρά, φαντασία και προσωπική έκφραση.
+          Στο Καλλίτεχνον Ποιώ, η τέχνη γίνεται αφορμή για γνώση, χαρά, φαντασία και προσωπική έκφραση.
         </p>
         <Link to="/about" className="mt-8 inline-flex rounded-full border border-primary/30 px-6 py-3 font-semibold text-primary hover:bg-accent">
           Μάθετε περισσότερα

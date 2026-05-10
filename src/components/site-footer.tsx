@@ -6,7 +6,7 @@ export function SiteFooter() {
     <footer className="mt-24 border-t border-border bg-[var(--mint)]/30">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-3">
         <div>
-          <h2 className="font-display text-xl">Καλλιτέχνον Ποιώ</h2>
+          <h2 className="font-display text-xl">Καλλίτεχνον Ποιώ</h2>
           <p className="mt-2 text-sm text-muted-foreground">
             Δημιουργικό εργαστήρι τέχνης στο Βέλο Κορινθίας.
           </p>
@@ -33,7 +33,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-border/60 py-4 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Καλλιτέχνον Ποιώ. Όλα τα δικαιώματα διατηρούνται.
+        © {new Date().getFullYear()} Καλλίτεχνον Ποιώ. Όλα τα δικαιώματα διατηρούνται.
       </div>
     </footer>
   );

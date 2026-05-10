@@ -7,9 +7,9 @@ import { useState } from "react";
 export const Route = createFileRoute("/workshops")({
   head: () => ({
     meta: [
-      { title: "Εργαστήρια — Καλλιτέχνον Ποιώ" },
+      { title: "Εργαστήρια — Καλλίτεχνον Ποιώ" },
       { name: "description", content: "Τρέχοντα και προηγούμενα εικαστικά εργαστήρια: παιδιά, γενέθλια, βραδιές τέχνης για ενηλίκους." },
-      { property: "og:title", content: "Εργαστήρια — Καλλιτέχνον Ποιώ" },
+      { property: "og:title", content: "Εργαστήρια — Καλλίτεχνον Ποιώ" },
       { property: "og:description", content: "Όλα τα εικαστικά μας workshops." },
     ],
   }),
@@ -35,7 +35,7 @@ function WorkshopsPage() {
       <header className="max-w-3xl">
         <h1 className="font-display text-4xl md:text-5xl">Τα εργαστήριά μας</h1>
         <p className="mt-4 text-lg text-foreground/80">
-          Στο Καλλιτέχνον Ποιώ, η τέχνη δεν σταματά στη ζωγραφική. Δημιουργούμε με πηλό, decoupage, κατασκευές και συνδυασμούς υλικών — κάθε εργαστήρι προσαρμόζεται στις ανάγκες και το επίπεδο του καθενός.
+          Στο Καλλίτεχνον Ποιώ, η τέχνη δεν σταματά στη ζωγραφική. Δημιουργούμε με πηλό, decoupage, κατασκευές και συνδυασμούς υλικών — κάθε εργαστήρι προσαρμόζεται στις ανάγκες και το επίπεδο του καθενός.
         </p>
       </header>
 

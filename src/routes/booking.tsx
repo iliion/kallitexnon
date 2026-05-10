@@ -5,9 +5,9 @@ const CALENDLY_URL = "https://calendly.com/your-handle/workshop"; // TODO: repla
 export const Route = createFileRoute("/booking")({
   head: () => ({
     meta: [
-      { title: "Κράτηση — Καλλιτέχνον Ποιώ" },
-      { name: "description", content: "Κάντε κράτηση για ένα από τα εργαστήρια του Καλλιτέχνον Ποιώ." },
-      { property: "og:title", content: "Κράτηση — Καλλιτέχνον Ποιώ" },
+      { title: "Κράτηση — Καλλίτεχνον Ποιώ" },
+      { name: "description", content: "Κάντε κράτηση για ένα από τα εργαστήρια του Καλλίτεχνον Ποιώ." },
+      { property: "og:title", content: "Κράτηση — Καλλίτεχνον Ποιώ" },
       { property: "og:description", content: "Επιλέξτε ημερομηνία και ώρα." },
     ],
   }),
