@@ -1,4 +1,4 @@
-# kallitexnon# Kallitexnon - Art Workshop Booking Platform
+# Kallitexnon - Art Workshop Booking Platform
 
 A modern web application for managing art workshops with a comprehensive booking system and admin panel. Built with React, TypeScript, and deployed to Cloudflare Workers.
 
