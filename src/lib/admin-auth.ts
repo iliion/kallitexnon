@@ -1,5 +1,4 @@
 // Simple, client-side admin auth. NOT secure — placeholder for a JSON-only setup.
-// Change ADMIN_PASSWORD here; for real security, switch to Lovable Cloud auth.
 export const ADMIN_PASSWORD = "kalitexnon2025";
 const KEY = "kp_admin_session";
 

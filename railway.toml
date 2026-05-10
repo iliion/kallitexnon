@@ -3,6 +3,7 @@ builder = "nixpacks"
 
 [build.nixpacks]
 providers = ["node"]
+node = "20"
 
 [deploy]
 startCommand = "PORT=80 node dist/server/server.js"
