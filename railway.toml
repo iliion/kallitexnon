@@ -1,0 +1,11 @@
+[build]
+builder = "nixpacks"
+
+[build.nixpacks]
+providers = ["node"]
+
+[deploy]
+startCommand = "PORT=80 node dist/server/server.js"
+restartPolicyMaxRetries = 5
+restartPolicyWindow = 600
+healthchecks = { cmd = "curl http://localhost:80 || exit 1", interval = 10, timeout = 5 }

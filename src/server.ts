@@ -235,4 +235,21 @@ if (import.meta.env.PROD) {
       console.error(`   Make sure you've run: npm run build`);
     }
   });
+
+  // Handle graceful shutdown for Railway/Docker
+  process.on("SIGTERM", () => {
+    console.log("SIGTERM received, shutting down gracefully...");
+    server.close(() => {
+      console.log("Server closed");
+      process.exit(0);
+    });
+  });
+
+  process.on("SIGINT", () => {
+    console.log("SIGINT received, shutting down gracefully...");
+    server.close(() => {
+      console.log("Server closed");
+      process.exit(0);
+    });
+  });
 }
