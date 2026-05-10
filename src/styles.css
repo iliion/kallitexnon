@@ -1,0 +1,128 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@import url('https://fonts.googleapis.com/css2?family=GFS+Didot&family=Open+Sans:wght@400;500;600;700&display=swap');
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-lavender: var(--lavender);
+  --color-mint: var(--mint);
+  --color-warm-yellow: var(--warm-yellow);
+  --font-display: 'GFS Didot', Georgia, serif;
+  --font-body: 'Open Sans', system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.75rem;
+  /* Warm cream background */
+  --background: oklch(0.985 0.012 95);
+  --foreground: oklch(0.22 0.04 280);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.04 280);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.04 280);
+
+  /* Deep lavender — passes 4.5:1 on cream bg */
+  --primary: oklch(0.42 0.12 295);
+  --primary-foreground: oklch(0.99 0.01 95);
+
+  /* Soft mint surface */
+  --secondary: oklch(0.93 0.04 165);
+  --secondary-foreground: oklch(0.28 0.06 200);
+
+  --muted: oklch(0.95 0.02 95);
+  --muted-foreground: oklch(0.42 0.03 280);
+
+  /* Warm yellow accent surface */
+  --accent: oklch(0.93 0.07 95);
+  --accent-foreground: oklch(0.3 0.05 60);
+
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.88 0.02 290);
+  --input: oklch(0.9 0.02 290);
+  --ring: oklch(0.55 0.14 295);
+
+  /* Brand pastels */
+  --lavender: oklch(0.86 0.06 295);
+  --mint: oklch(0.9 0.06 165);
+  --warm-yellow: oklch(0.93 0.09 95);
+
+  --gradient-hero: linear-gradient(135deg, oklch(0.93 0.05 295) 0%, oklch(0.94 0.05 165) 50%, oklch(0.95 0.07 95) 100%);
+  --shadow-soft: 0 10px 30px -12px oklch(0.42 0.12 295 / 0.18);
+  --shadow-card: 0 4px 14px -4px oklch(0.42 0.12 295 / 0.12);
+}
+
+.dark {
+  --background: oklch(0.18 0.03 280);
+  --foreground: oklch(0.97 0.01 95);
+  --card: oklch(0.22 0.04 280);
+  --card-foreground: oklch(0.97 0.01 95);
+  --popover: oklch(0.22 0.04 280);
+  --popover-foreground: oklch(0.97 0.01 95);
+  --primary: oklch(0.82 0.1 295);
+  --primary-foreground: oklch(0.2 0.05 280);
+  --secondary: oklch(0.3 0.05 200);
+  --secondary-foreground: oklch(0.97 0.01 95);
+  --muted: oklch(0.28 0.03 280);
+  --muted-foreground: oklch(0.75 0.02 280);
+  --accent: oklch(0.35 0.06 95);
+  --accent-foreground: oklch(0.97 0.01 95);
+  --destructive: oklch(0.6 0.2 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.7 0.1 295);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { font-family: var(--font-body); }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: 0.01em;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+@utility hero-gradient {
+  background-image: var(--gradient-hero);
+}
+@utility shadow-soft { box-shadow: var(--shadow-soft); }
+@utility shadow-card { box-shadow: var(--shadow-card); }
