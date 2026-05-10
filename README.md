@@ -1,6 +1,6 @@
 # Kallitexnon - Art Workshop Booking Platform
 
-A modern web application for managing art workshops with a comprehensive booking system and admin panel. Built with React, TypeScript, and deployed to Cloudflare Workers.
+A modern web application for managing art workshops with a comprehensive booking system and admin panel. Built with React, TypeScript, and Node.js.
 
 ## 📋 Table of Contents
 
@@ -31,8 +31,8 @@ Kallitexnon is a full-stack art workshop management platform featuring:
 - **State Management**: [TanStack Query](https://tanstack.com/query/latest) (server state)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) with [shadcn/ui](https://ui.shadcn.com/)
 - **Build Tool**: [Vite](https://vitejs.dev/)
-- **Runtime**: [Cloudflare Workers](https://workers.cloudflare.com/) (server-side rendering)
-- **Server Build**: [@cloudflare/vite-plugin](https://developers.cloudflare.com/workers/frameworks/framework-guides/vite/)
+- **Runtime**: [Node.js](https://nodejs.org/) (server-side rendering)
+- **Server Framework**: [TanStack Start](https://tanstack.com/start/latest)
 - **Code Quality**: [ESLint](https://eslint.org/) + [Prettier](https://prettier.io/)
 - **Package Manager**: [Bun](https://bun.sh/) or npm/yarn
 
@@ -43,10 +43,6 @@ Before you begin, ensure you have the following installed:
 - **Node.js** v18 or higher
 - **Package Manager**: Bun, npm, or yarn
 - **Git** for version control
-
-For Cloudflare Workers deployment:
-- [Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/install-and-update/) (v3+)
-- Cloudflare account with Workers enabled
 
 ## 🚀 Getting Started
 
@@ -104,13 +100,6 @@ npm run build
 
 Output is generated in the `dist/` directory ready for deployment.
 
-**Development build** (for debugging):
-```bash
-bun run build:dev
-# or
-npm run build:dev
-```
-
 ## 📁 Project Structure
 
 ```
@@ -148,7 +137,6 @@ kallitexnon/
 ├── public/                 # Static public files (if needed)
 ├── package.json            # Dependencies and scripts
 ├── vite.config.ts          # Vite configuration
-├── wrangler.jsonc          # Cloudflare Workers configuration
 ├── tsconfig.json           # TypeScript configuration
 ├── eslint.config.js        # ESLint rules
 ├── .prettierrc              # Prettier formatting rules
@@ -164,7 +152,7 @@ kallitexnon/
 
 **`src/lib/`** — Business logic, utilities, authentication, and stores for state management.
 
-**`src/server.ts`** — Server-side rendering entry point for Cloudflare Workers. Handles SSR and API requests.
+**`src/server.ts`** — Server-side rendering entry point for Node.js. Handles SSR and API requests.
 
 ## 💻 Development
 
@@ -174,7 +162,7 @@ kallitexnon/
 |--------|---------|---------|
 | **dev** | `npm run dev` | Start development server with HMR |
 | **build** | `npm run build` | Build for production |
-| **build:dev** | `npm run build:dev` | Build with dev mode (better debugging) |
+| **start** | `npm start` | Start production server |
 | **preview** | `npm run preview` | Preview production build locally |
 | **lint** | `npm run lint` | Run ESLint to check code quality |
 | **format** | `npm run format` | Format code with Prettier |
@@ -211,92 +199,79 @@ Or use your IDE's format-on-save feature (recommended).
 
 ## 🚀 Deployment
 
-### Cloudflare Workers Deployment
+### Node.js Server Deployment
 
-#### Prerequisites
+#### Build the Project
 
-1. Install Wrangler CLI:
-   ```bash
-   npm install -g wrangler
-   # or
-   bun install -g wrangler
-   ```
-
-2. Authenticate with Cloudflare:
-   ```bash
-   wrangler login
-   ```
-   This opens a browser window to authorize your Cloudflare account.
-
-#### Build & Deploy
-
-1. **Build the Project**:
-   ```bash
-   bun run build
-   # or
-   npm run build
-   ```
-
-2. **Deploy to Cloudflare Workers**:
-   ```bash
-   wrangler deploy
-   ```
-
-   Wrangler will:
-   - Read configuration from `wrangler.jsonc`
-   - Upload the built files to Cloudflare Workers
-   - Provide a URL to access your deployed app
-
-3. **Verify Deployment**:
-   ```bash
-   wrangler tail
-   ```
-   View real-time logs from your deployed worker.
-
-#### Configuration
-
-The `wrangler.jsonc` file contains:
-
-```jsonc
-{
-  "name": "tanstack-start-app",           // Worker script name
-  "main": "src/server.ts",                 // Entry point
-  "compatibility_date": "2025-09-24",      // Cloudflare API version
-  "compatibility_flags": ["nodejs_compat"] // Node.js compatibility layer
-}
+```bash
+bun run build
+# or
+npm run build
 ```
 
-**Edit this file to:**
-- Change the worker name
-- Add environment variables (for production secrets)
-- Configure routes and custom domains
+This generates optimized production files in the `dist/` directory.
+
+#### Running the Production Server
+
+```bash
+bun start
+# or
+npm start
+```
+
+The server will start on `http://localhost:3000` (or the port specified by the `PORT` environment variable).
 
 #### Environment Variables
 
-For production secrets (API keys, database URLs, etc.):
-
-1. Add to `wrangler.jsonc`:
-   ```jsonc
-   [env.production]
-   vars = { PUBLIC_API_URL = "https://api.example.com" }
-   ```
-
-2. Or use Wrangler's secret management:
-   ```bash
-   wrangler secret put API_KEY
-   ```
-
-3. Access in your app via `process.env` or import from `@cloudflare/workers-types`.
-
-### Local Preview Before Deployment
+For production deployment, you can configure the following:
 
 ```bash
-bun run preview
-# or
-npm run preview
+# Set the port (default: 3000)
+PORT=8080 npm start
+
+# Set Node environment
+NODE_ENV=production npm start
 ```
 
-This simulates the Cloudflare Workers environment locally on your machine.
+#### Deployment Platforms
+
+You can deploy this Node.js app to various platforms:
+
+**Heroku:**
+```bash
+heroku create your-app-name
+git push heroku main
+```
+
+**Railway/Render/Fly.io:**
+1. Build: `npm run build`
+2. Start command: `npm start`
+3. Set `NODE_ENV=production` in environment variables
+
+**VPS/Self-hosted:**
+```bash
+# Install PM2 for process management
+npm install -g pm2
+
+# Build
+npm run build
+
+# Start with PM2
+pm2 start "npm start" --name kallitexnon
+pm2 save
+pm2 startup
+```
+
+#### Local Testing
+
+Test the production build locally:
+
+```bash
+bun run build
+bun start
+```
+
+Visit `http://localhost:3000` to verify everything works.
 
 ## 🐛 Troubleshooting
 
@@ -346,31 +321,15 @@ import { Button } from "@/components/ui/button";
 import { Button } from "../ui/button";
 ```
 
-### Wrangler Deploy Fails
-
-1. Verify you're logged in:
-   ```bash
-   wrangler whoami
-   ```
-
-2. Check `wrangler.jsonc` syntax (it's JSON with comments):
-   ```bash
-   wrangler publish --dry-run
-   ```
-
-3. Ensure `dist/` folder exists:
-   ```bash
-   bun run build
-   ```
-
 ## 📚 Documentation & Resources
 
 - [TanStack Router Docs](https://tanstack.com/router/latest)
 - [TanStack Query Docs](https://tanstack.com/query/latest)
+- [TanStack Start Docs](https://tanstack.com/start/latest)
 - [Tailwind CSS Docs](https://tailwindcss.com/docs)
 - [shadcn/ui Components](https://ui.shadcn.com/)
-- [Cloudflare Workers Docs](https://developers.cloudflare.com/workers/)
 - [Vite Docs](https://vitejs.dev/guide/)
+- [Node.js Docs](https://nodejs.org/docs/)
 
 ## 🤝 Contributing
 

@@ -1,10 +1,11 @@
 import "./lib/error-capture";
 
+import http from "http";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 
 type ServerEntry = {
-  fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
+  fetch: (request: Request) => Promise<Response> | Response;
 };
 
 let serverEntryPromise: Promise<ServerEntry> | undefined;
@@ -66,15 +67,50 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   return brandedErrorResponse();
 }
 
-export default {
-  async fetch(request: Request, env: unknown, ctx: unknown) {
-    try {
-      const handler = await getServerEntry();
-      const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
-    } catch (error) {
-      console.error(error);
-      return brandedErrorResponse();
-    }
-  },
-};
+async function handleRequest(request: Request): Promise<Response> {
+  try {
+    const handler = await getServerEntry();
+    const response = await handler.fetch(request);
+    return await normalizeCatastrophicSsrResponse(response);
+  } catch (error) {
+    console.error(error);
+    return brandedErrorResponse();
+  }
+}
+
+const port = process.env.PORT || 3000;
+
+const server = http.createServer(async (req, res) => {
+  const url = `http://${req.headers.host}${req.url}`;
+  
+  // Read the body for non-GET/HEAD requests
+  let body: Buffer | undefined;
+  if (req.method !== "GET" && req.method !== "HEAD") {
+    body = await new Promise((resolve, reject) => {
+      const chunks: Buffer[] = [];
+      req.on("data", (chunk) => chunks.push(chunk));
+      req.on("end", () => resolve(Buffer.concat(chunks)));
+      req.on("error", reject);
+    });
+  }
+
+  const request = new Request(url, {
+    method: req.method,
+    headers: req.headers as HeadersInit,
+    body: body && body.length > 0 ? body : undefined,
+  });
+
+  try {
+    const response = await handleRequest(request);
+    res.writeHead(response.status, Object.fromEntries(response.headers));
+    res.end(await response.text());
+  } catch (error) {
+    console.error(error);
+    res.writeHead(500, { "content-type": "text/html; charset=utf-8" });
+    res.end(renderErrorPage());
+  }
+});
+
+server.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
+});
