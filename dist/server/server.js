@@ -94,7 +94,7 @@ async function normalizeCatastrophicSsrResponse(response) {
   console.error(consumeLastCapturedError() ?? new Error(`h3 swallowed SSR error: ${body}`));
   return brandedErrorResponse();
 }
-async function handleRequest(request) {
+async function fetch(request) {
   try {
     const handler = await getServerEntry();
     const response = await handler.fetch(request);
@@ -104,36 +104,43 @@ async function handleRequest(request) {
     return brandedErrorResponse();
   }
 }
-const port = process.env.PORT || 3e3;
-const server = http.createServer(async (req, res) => {
-  const url = `http://${req.headers.host}${req.url}`;
-  let body;
-  if (req.method !== "GET" && req.method !== "HEAD") {
-    body = await new Promise((resolve, reject) => {
-      const chunks = [];
-      req.on("data", (chunk) => chunks.push(chunk));
-      req.on("end", () => resolve(Buffer.concat(chunks)));
-      req.on("error", reject);
+const server = {
+  fetch
+};
+{
+  const port = process.env.PORT || 3e3;
+  const server2 = http.createServer(async (req, res) => {
+    const url = `http://${req.headers.host}${req.url}`;
+    let body;
+    if (req.method !== "GET" && req.method !== "HEAD") {
+      body = await new Promise((resolve, reject) => {
+        const chunks = [];
+        req.on("data", (chunk) => chunks.push(chunk));
+        req.on("end", () => resolve(Buffer.concat(chunks)));
+        req.on("error", reject);
+      });
+    }
+    const request = new Request(url, {
+      method: req.method,
+      headers: req.headers,
+      body: body && body.length > 0 ? body : void 0
     });
-  }
-  const request = new Request(url, {
-    method: req.method,
-    headers: req.headers,
-    body: body && body.length > 0 ? body : void 0
+    try {
+      const response = await fetch(request);
+      res.writeHead(response.status, Object.fromEntries(response.headers));
+      res.end(await response.text());
+    } catch (error) {
+      console.error(error);
+      res.writeHead(500, { "content-type": "text/html; charset=utf-8" });
+      res.end(renderErrorPage());
+    }
   });
-  try {
-    const response = await handleRequest(request);
-    res.writeHead(response.status, Object.fromEntries(response.headers));
-    res.end(await response.text());
-  } catch (error) {
-    console.error(error);
-    res.writeHead(500, { "content-type": "text/html; charset=utf-8" });
-    res.end(renderErrorPage());
-  }
-});
-server.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+  server2.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  });
+}
 export {
+  server as default,
+  fetch,
   renderErrorPage as r
 };
