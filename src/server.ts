@@ -67,7 +67,7 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   return brandedErrorResponse();
 }
 
-async function handleRequest(request: Request): Promise<Response> {
+export async function fetch(request: Request): Promise<Response> {
   try {
     const handler = await getServerEntry();
     const response = await handler.fetch(request);
@@ -78,39 +78,47 @@ async function handleRequest(request: Request): Promise<Response> {
   }
 }
 
-const port = process.env.PORT || 3000;
+// Export as default for compatibility with TanStack Start dev plugin
+export default {
+  fetch,
+};
 
-const server = http.createServer(async (req, res) => {
-  const url = `http://${req.headers.host}${req.url}`;
-  
-  // Read the body for non-GET/HEAD requests
-  let body: Buffer | undefined;
-  if (req.method !== "GET" && req.method !== "HEAD") {
-    body = await new Promise((resolve, reject) => {
-      const chunks: Buffer[] = [];
-      req.on("data", (chunk) => chunks.push(chunk));
-      req.on("end", () => resolve(Buffer.concat(chunks)));
-      req.on("error", reject);
+// Production Node.js server entry point
+if (import.meta.env.PROD) {
+  const port = process.env.PORT || 3000;
+
+  const server = http.createServer(async (req, res) => {
+    const url = `http://${req.headers.host}${req.url}`;
+    
+    // Read the body for non-GET/HEAD requests
+    let body: Buffer | undefined;
+    if (req.method !== "GET" && req.method !== "HEAD") {
+      body = await new Promise((resolve, reject) => {
+        const chunks: Buffer[] = [];
+        req.on("data", (chunk) => chunks.push(chunk));
+        req.on("end", () => resolve(Buffer.concat(chunks)));
+        req.on("error", reject);
+      });
+    }
+
+    const request = new Request(url, {
+      method: req.method,
+      headers: req.headers as HeadersInit,
+      body: body && body.length > 0 ? body : undefined,
     });
-  }
 
-  const request = new Request(url, {
-    method: req.method,
-    headers: req.headers as HeadersInit,
-    body: body && body.length > 0 ? body : undefined,
+    try {
+      const response = await fetch(request);
+      res.writeHead(response.status, Object.fromEntries(response.headers));
+      res.end(await response.text());
+    } catch (error) {
+      console.error(error);
+      res.writeHead(500, { "content-type": "text/html; charset=utf-8" });
+      res.end(renderErrorPage());
+    }
   });
 
-  try {
-    const response = await handleRequest(request);
-    res.writeHead(response.status, Object.fromEntries(response.headers));
-    res.end(await response.text());
-  } catch (error) {
-    console.error(error);
-    res.writeHead(500, { "content-type": "text/html; charset=utf-8" });
-    res.end(renderErrorPage());
-  }
-});
-
-server.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+  server.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  });
+}
