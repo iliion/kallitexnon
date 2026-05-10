@@ -6,7 +6,6 @@ providers = ["node"]
 node = "20"
 
 [deploy]
-startCommand = "PORT=80 node dist/server/server.js"
+startCommand = "npm start"
 restartPolicyMaxRetries = 5
 restartPolicyWindow = 600
-healthchecks = { cmd = "curl http://localhost:80 || exit 1", interval = 10, timeout = 5 }
