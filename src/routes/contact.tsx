@@ -64,7 +64,7 @@ function ContactPage() {
         <div>
           <ul className="space-y-4 rounded-2xl bg-[var(--mint)]/30 p-6">
             <li className="flex items-start gap-3"><MapPin className="mt-1 h-5 w-5 text-primary" aria-hidden /><div><p className="font-semibold">Διεύθυνση</p><p className="text-sm text-foreground/80">Βέλο, Κορινθία</p></div></li>
-            <li className="flex items-start gap-3"><Mail className="mt-1 h-5 w-5 text-primary" aria-hidden /><div><p className="font-semibold">Email</p><a href="mailto:info@example.gr" className="text-sm text-foreground/80 hover:text-primary">info@example.gr</a></div></li>
+            <li className="flex items-start gap-3"><Mail className="mt-1 h-5 w-5 text-primary" aria-hidden /><div><p className="font-semibold">Email</p><a href="mailto:kallitexnon.poio@gmail.com" className="text-sm text-foreground/80 hover:text-primary">kallitexnon.poio@gmail.com</a></div></li>
             <li className="flex items-start gap-3"><Phone className="mt-1 h-5 w-5 text-primary" aria-hidden /><div><p className="font-semibold">Τηλέφωνο</p><a href="tel:+302700000000" className="text-sm text-foreground/80 hover:text-primary">+30 27000 00000</a></div></li>
             <li className="flex items-center gap-4 pt-2">
               <a href="https://instagram.com" aria-label="Instagram" className="text-primary hover:opacity-80"><Instagram className="h-6 w-6" /></a>
