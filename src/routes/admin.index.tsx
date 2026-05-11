@@ -112,15 +112,15 @@ function EditDialog({ workshop, onClose }: { workshop: Workshop; onClose: () => 
   }
 
   return (
-    <div role="dialog" aria-modal="true" aria-labelledby="edit-title" className="fixed inset-0 z-50 grid place-items-center bg-foreground/40 p-4">
-      <div className="w-full max-w-lg rounded-2xl bg-card p-6 shadow-soft">
-        <div className="flex items-center justify-between">
+    <div role="dialog" aria-modal="true" aria-labelledby="edit-title" className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 p-4 overflow-y-auto">
+      <div className="w-full max-w-lg rounded-2xl bg-card p-6 shadow-soft my-8 flex flex-col max-h-[90vh]">
+        <div className="flex items-center justify-between flex-shrink-0">
           <h2 id="edit-title" className="font-display text-xl">{workshop.title ? "Επεξεργασία" : "Νέο εργαστήρι"}</h2>
           <button onClick={onClose} aria-label="Κλείσιμο" className="rounded-md p-2 hover:bg-accent"><X className="h-5 w-5" /></button>
         </div>
         <form
           onSubmit={(e) => { e.preventDefault(); upsertWorkshop(w); onClose(); }}
-          className="mt-4 grid gap-3"
+          className="mt-4 grid gap-3 overflow-y-auto flex-1 pr-2"
         >
           <Field label="Τίτλος"><input required className="kp-input" value={w.title} onChange={(e) => set("title", e.target.value)} /></Field>
           <Field label="Ημερομηνία/Ώρα"><input required className="kp-input" value={w.date} onChange={(e) => set("date", e.target.value)} /></Field>
@@ -146,11 +146,17 @@ function EditDialog({ workshop, onClose }: { workshop: Workshop; onClose: () => 
             <input type="checkbox" checked={!!w.past} onChange={(e) => set("past", e.target.checked)} />
             Παρελθοντικό εργαστήρι
           </label>
-          <div className="mt-2 flex justify-end gap-2">
-            <button type="button" onClick={onClose} className="rounded-md border border-border px-4 py-2 text-sm hover:bg-accent">Ακύρωση</button>
-            <button type="submit" className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90">Αποθήκευση</button>
-          </div>
         </form>
+        <div className="mt-4 flex justify-end gap-2 flex-shrink-0 border-t border-border pt-4">
+          <button type="button" onClick={onClose} className="rounded-md border border-border px-4 py-2 text-sm hover:bg-accent">Ακύρωση</button>
+          <button 
+            type="submit" 
+            onClick={() => { upsertWorkshop(w); onClose(); }} 
+            className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+          >
+            Αποθήκευση
+          </button>
+        </div>
       </div>
       <style>{`.kp-input{width:100%;border:1px solid var(--input);background:var(--background);border-radius:.5rem;padding:.5rem .75rem;font:inherit}`}</style>
     </div>
