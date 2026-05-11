@@ -1,6 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import logo from "@/assets/logo.png?url";
 
 const nav = [
   { to: "/", label: "Αρχική" },
@@ -18,7 +19,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link to="/" className="flex items-center gap-2" aria-label="Αρχική σελίδα">
-          <span aria-hidden className="grid h-9 w-9 place-items-center rounded-full bg-[var(--lavender)] text-primary font-display text-lg">Κ</span>
+          <img src={logo} alt="Καλλίτεχνον Ποιώ logo" className="h-15 w-15 object-contain" />
           <span className="font-display text-lg leading-tight">
             Καλλίτεχνον <span className="text-primary">Ποιώ</span>
           </span>
