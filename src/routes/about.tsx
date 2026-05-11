@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Italic } from "lucide-react";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -70,7 +71,7 @@ function AboutPage() {
       <section className="mt-14 rounded-lg bg-primary/5 p-6 border-l-4 border-primary">
         <h2 className="font-display text-xl text-primary">📌 Ενίσχυση</h2>
         <p className="mt-3 text-lg leading-relaxed text-foreground/85">
-          Η επιχείρηση ενισχύθηκε στο πλαίσιο του Προγράμματος "Ανθρώπινο Δυναμικό και Κοινωνική Συνοχή 2021-2027" με την συγχρηματοδότηση της Ελλάδας και της Ευρωπαϊκής Ένωσης.
+          Η επιχείρηση ενισχύθηκε στο πλαίσιο του Προγράμματος <i>Ανθρώπινο Δυναμικό και Κοινωνική Συνοχή 2021-2027</i> με την συγχρηματοδότηση της Ελλάδας και της Ευρωπαϊκής Ένωσης.
         </p>
       </section>
 
