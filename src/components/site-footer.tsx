@@ -33,8 +33,8 @@ export function SiteFooter() {
               <li className="flex items-center gap-2"><MapPin className="h-4 w-4" aria-hidden /> Βέλο, Κορινθία</li>
               <li className="flex items-center gap-2"><Mail className="h-4 w-4" aria-hidden /> kallitechnon.poio@gmail.com</li>
               <li className="flex items-center gap-3 pt-2">
-                <a href="https://www.instagram.com/kallitechnon_poio/" aria-label="Instagram" className="hover:text-primary"><Instagram className="h-5 w-5" /></a>
-                <a href="https://facebook.com" aria-label="Facebook" className="hover:text-primary"><Facebook className="h-5 w-5" /></a>
+                <a href="https://www.instagram.com/kallitechnon_poio" aria-label="Instagram" className="hover:text-primary"><Instagram className="h-5 w-5" /></a>
+                <a href="https://www.facebook.com/profile.php?id=61582011255187" aria-label="Facebook" className="hover:text-primary"><Facebook className="h-5 w-5" /></a>
               </li>
             </ul>
           </div>

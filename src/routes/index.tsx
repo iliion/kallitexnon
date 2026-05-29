@@ -126,19 +126,77 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Philosophy CTA */}
-      <section className="mx-auto max-w-4xl px-4 py-20 text-center">
-        <h2 className="font-display text-3xl md:text-4xl">Η φιλοσοφία μας</h2>
-        <p className="mt-6 text-lg text-foreground/80">
-          Πιστεύουμε πως μέσα σε κάθε άνθρωπο υπάρχει ένας δημιουργός που περιμένει τον κατάλληλο χώρο και το κατάλληλο ερέθισμα για να εκφραστεί.
-        </p>
-        <p className="mt-4 text-lg text-foreground/80">
-          Στο Καλλίτεχνον Ποιώ, η τέχνη γίνεται αφορμή για γνώση, χαρά, φαντασία και προσωπική έκφραση.
-        </p>
-        <Link to="/about" className="mt-8 inline-flex rounded-full border border-primary/30 px-6 py-3 font-semibold text-primary hover:bg-accent">
-          Μάθετε περισσότερα
-        </Link>
-      </section>
+      {/* Why us? CTA */}
+  <section className="mx-auto max-w-6xl px-6 py-24 md:py-32 text-center">
+    {/* Header Section */}
+    <div className="max-w-2xl mx-auto mb-16 space-y-4">
+      <h2 className="font-display text-4xl md:text-5xl font-tracking-tight text-foreground">
+        Γιατί να επιλέξετε το <span className="text-primary font-serif italic">Καλλίτεχνον Ποιώ</span>
+      </h2>
+      <p className="text-muted-foreground text-base md:text-lg">
+        Εδώ η τέχνη δεν είναι απλώς μάθημα· είναι τρόπος έκφρασης, σύνδεσης και δημιουργίας.
+      </p>
+    </div>
+
+    {/* Grid Layout replacing the standard bulleted list */}
+    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-left">
+      
+      {/* Point 1 */}
+      <div className="group relative flex flex-col justify-between p-6 rounded-2xl bg-card/50 border border-border/60 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:bg-card">
+        <div>
+          <span className="font-serif text-3xl font-light text-primary/30 group-hover:text-primary/60 transition-colors duration-300">01</span>
+          <h3 className="mt-4 font-display text-xl font-semibold text-foreground tracking-tight">Ολιγομελή Τμήματα</h3>
+          <p className="mt-3 text-sm md:text-base text-muted-foreground/90 leading-relaxed">
+            Μικρές ομάδες για εξατομικευμένη καθοδήγηση, ουσιαστική σύνδεση και την καλύτερη δυνατή εμπειρία.
+          </p>
+        </div>
+      </div>
+
+      {/* Point 2 */}
+      <div className="group relative flex flex-col justify-between p-6 rounded-2xl bg-card/50 border border-border/60 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:bg-card">
+        <div>
+          <span className="font-serif text-3xl font-light text-primary/30 group-hover:text-primary/60 transition-colors duration-300">02</span>
+          <h3 className="mt-4 font-display text-xl font-semibold text-foreground tracking-tight">Τέχνη με Ιστορία</h3>
+          <p className="mt-3 text-sm md:text-base text-muted-foreground/90 leading-relaxed">
+            Κάθε εργαστήριο είναι ένα ταξίδι. Συνδέουμε τη δημιουργία με καλλιτέχνες, πολιτισμούς και βαθιές αφηγήσεις.
+          </p>
+        </div>
+      </div>
+
+      {/* Point 3 */}
+      <div className="group relative flex flex-col justify-between p-6 rounded-2xl bg-card/50 border border-border/60 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:bg-card">
+        <div>
+          <span className="font-serif text-3xl font-light text-primary/30 group-hover:text-primary/60 transition-colors duration-300">03</span>
+          <h3 className="mt-4 font-display text-xl font-semibold text-foreground tracking-tight">Πολυμορφία Υλικών</h3>
+          <p className="mt-3 text-sm md:text-base text-muted-foreground/90 leading-relaxed">
+            Πειραματιζόμαστε με ζωγραφική, πηλό, decoupage, κατασκευές και μεικτές τεχνικές χωρίς περιορισμούς.
+          </p>
+        </div>
+      </div>
+
+      {/* Point 4 */}
+      <div className="group relative flex flex-col justify-between p-6 rounded-2xl bg-card/50 border border-border/60 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:bg-card">
+        <div>
+          <span className="font-serif text-3xl font-light text-primary/30 group-hover:text-primary/60 transition-colors duration-300">04</span>
+          <h3 className="mt-4 font-display text-xl font-semibold text-foreground tracking-tight">Βιωματική Εμπειρία</h3>
+          <p className="mt-3 text-sm md:text-base text-muted-foreground/90 leading-relaxed">
+            Δεν φεύγετε απλώς με ένα αντικείμενο. Κρατάτε τη χαρά της διαδικασίας, της ανακάλυψης και της δημιουργίας.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    {/* Button Section */}
+    <div className="mt-16">
+      <Link 
+        to="/about" 
+        className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-3.5 font-medium text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-lg hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >
+        Μάθετε περισσότερα για εμάς
+      </Link>
+    </div>
+  </section>
     </>
   );
 }
