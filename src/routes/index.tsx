@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import heroImg from "@/assets/hero.jpg";
+import heroImg from "@/assets/banner.png";
 import { useStore } from "@/lib/use-store";
 import { getAnnouncements, getWorkshops } from "@/lib/workshops-store";
 import { Sparkles, Palette, BookOpen, ArrowRight } from "lucide-react";
@@ -101,6 +101,14 @@ function HomePage() {
             </div>
             <Link to="/workshops" className="hidden text-sm font-semibold text-primary hover:underline md:inline">Όλα τα εργαστήρια →</Link>
           </div>
+          {/* Workshop Feature Image */}
+          <img
+            src={heroImg}
+            alt="Εικαστικό εργαστήριο όπου παιδιά και ενήλικες δημιουργούν έργα εμπνευσμένα από διάσημους ζωγράφους"
+            width={1600}
+            height={1024}
+            className="aspect-[4/3] md:aspect-[21/9] w-full rounded-3xl object-cover shadow-soft"
+          />
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {workshops.map((w) => (
               <article key={w.id} className="overflow-hidden rounded-2xl bg-card shadow-card">
