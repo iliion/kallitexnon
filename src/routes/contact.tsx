@@ -60,6 +60,79 @@ function ContactPage() {
           </div>
         </form>
 
+        <section className="mx-auto max-w-4xl px-6 py-24 md:py-5 rounded-2xl bg-[var(--lavender)]/50">
+          {/* FAQ Header */}
+          <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
+            <h2 id="faq-heading" className="font-display text-3xl md:text-4xl font-tracking-tight text-foreground">
+              Συχνές Ερωτήσεις
+            </h2>
+            <p className="text-muted-foreground text-sm md:text-base">
+              Όλα όσα θέλετε να γνωρίζετε για τη συμμετοχή των παιδιών στα εργαστήριά μας.
+            </p>
+          </div>
+
+          {/* FAQ List */}
+          <div className="space-y-6 max-w-3xl mx-auto">
+            
+            {/* Question 1 */}
+            <div className="p-6 rounded-2xl bg-card border border-border/60 shadow-sm">
+              <h3 className="font-display text-lg font-semibold text-foreground flex items-start gap-3">
+                {/* aria-hidden hides the standalone Greek question mark from screen readers */}
+                <span className="text-primary font-serif select-none" aria-hidden="true">;</span>
+                <span>Χρειάζεται το παιδί να έχει προηγούμενη εμπειρία ή να ξέρει να ζωγραφίζει;</span>
+              </h3>
+              <p className="mt-3 pl-5 text-sm md:text-base text-muted-foreground leading-relaxed">
+                <strong className="text-foreground font-semibold">Όχι.</strong> Όλα τα εργαστήριά μας είναι πλήρως καθοδηγούμενα και σχεδιασμένα έτσι ώστε να προσαρμόζονται με αγάπη στο επίπεδο και τον ρυθμό κάθε συμμετέχοντα.
+              </p>
+            </div>
+
+            {/* Question 2 */}
+            <div className="p-6 rounded-2xl bg-card border border-border/60 shadow-sm">
+              <h3 className="font-display text-lg font-semibold text-foreground flex items-start gap-3">
+                <span className="text-primary font-serif select-none" aria-hidden="true">;</span>
+                <span>Τα υλικά περιλαμβάνονται στην τιμή;</span>
+              </h3>
+              <p className="mt-3 pl-5 text-sm md:text-base text-muted-foreground leading-relaxed">
+                <strong className="text-foreground font-semibold">Ναι, απόλυτα.</strong> Όλα τα βασικά και εξειδικευμένα υλικά (χρώματα, πηλός, καμβάδες, πινέλα κ.λπ.) παρέχονται εξολοκλήρου από εμάς. Το παιδί έρχεται μόνο με τη δημιουργικότητά του!
+              </p>
+            </div>
+
+            {/* Question 3 */}
+            <div className="p-6 rounded-2xl bg-card border border-border/60 shadow-sm">
+              <h3 className="font-display text-lg font-semibold text-foreground flex items-start gap-3">
+                <span className="text-primary font-serif select-none" aria-hidden="true">;</span>
+                <span>Πόση ώρα διαρκεί ένα εργαστήριο;</span>
+              </h3>
+              <p className="mt-3 pl-5 text-sm md:text-base text-muted-foreground leading-relaxed">
+                Η συνήθης διάρκεια είναι <strong className="text-foreground font-semibold">2 ώρες</strong>, εκτός αν αναφέρεται διαφορετικά στην περιγραφή του συγκεκριμένου σεμιναρίου. Είναι ο ιδανικός χρόνος για να ολοκληρωθεί ένα έργο χωρίς να κουραστούν τα παιδιά.
+              </p>
+            </div>
+
+            {/* Question 4 */}
+            <div className="p-6 rounded-2xl bg-card border border-border/60 shadow-sm">
+              <h3 className="font-display text-lg font-semibold text-foreground flex items-start gap-3">
+                <span className="text-primary font-serif select-none" aria-hidden="true">;</span>
+                <span>Πώς γίνεται η κράτηση θέσης;</span>
+              </h3>
+              <p className="mt-3 pl-5 text-sm md:text-base text-muted-foreground leading-relaxed">
+                Η κράτηση γίνεται εύκολα με ένα <strong className="text-foreground font-semibold">μήνυμα ή μέσω της φόρμας επικοινωνίας</strong> μας. Λόγω των ολιγομελών τμημάτων, θα ακολουθήσει άμεση επιβεβαίωση διαθεσιμότητας από εμάς.
+              </p>
+            </div>
+
+            {/* Question 5 */}
+            <div className="p-6 rounded-2xl bg-card border border-border/60 shadow-sm">
+              <h3 className="font-display text-lg font-semibold text-foreground flex items-start gap-3">
+                <span className="text-primary font-serif select-none" aria-hidden="true">;</span>
+                <span>Χρειάζεται να παραμείνουν οι γονείς στον χώρο κατά τη διάρκεια;</span>
+              </h3>
+              <p className="mt-3 pl-5 text-sm md:text-base text-muted-foreground leading-relaxed">
+                Όχι απαραίτητα. Τα παιδιά απασχολούνται δημιουργικά με πλήρη επίβλεψη, οπότε μπορείτε να αξιοποιήσετε αυτόν τον χρόνο για τον εαυτό σας, εκτός αν πρόκειται για ειδικά εργαστήρια κοινής δημιουργίας (γονέα-παιδιού).
+              </p>
+            </div>
+
+          </div>
+        </section>
+
         {/* Info + map */}
         <div>
           <ul className="space-y-4 rounded-2xl bg-[var(--mint)]/30 p-6">
@@ -67,8 +140,8 @@ function ContactPage() {
             <li className="flex items-start gap-3"><Mail className="mt-1 h-5 w-5 text-primary" aria-hidden /><div><p className="font-semibold">Email</p><a href="mailto:kallitechnon.poio@gmail.com" className="text-sm text-foreground/80 hover:text-primary">kallitechnon.poio@gmail.com</a></div></li>
             <li className="flex items-start gap-3"><Phone className="mt-1 h-5 w-5 text-primary" aria-hidden /><div><p className="font-semibold">Τηλέφωνο</p><a href="tel:+302700000000" className="text-sm text-foreground/80 hover:text-primary">+30 27000 00000</a></div></li>
             <li className="flex items-center gap-4 pt-2">
-              <a href="https://instagram.com" aria-label="Instagram" className="text-primary hover:opacity-80"><Instagram className="h-6 w-6" /></a>
-              <a href="https://facebook.com" aria-label="Facebook" className="text-primary hover:opacity-80"><Facebook className="h-6 w-6" /></a>
+              <a href="https://www.instagram.com/kallitechnon_poio" aria-label="Instagram" className="text-primary hover:opacity-80"><Instagram className="h-6 w-6" /></a>
+              <a href="https://www.facebook.com/profile.php?id=61582011255187" aria-label="Facebook" className="text-primary hover:opacity-80"><Facebook className="h-6 w-6" /></a>
             </li>
           </ul>
 
