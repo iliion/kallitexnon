@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-const CALENDLY_URL = "https://calendly.com/your-handle/workshop"; // TODO: replace with real link
+const CALENDLY_URL = "https://calendly.com/1ll1as10ann0u/new-meeting"; // TODO: replace with real link
 
 export const Route = createFileRoute("/booking")({
   head: () => ({
