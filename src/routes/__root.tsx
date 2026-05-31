@@ -69,7 +69,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="el">
-      <head><HeadContent /></head>
+      <head>
+        <script src="https://cdn.userway.org/widget.js" data-account="Ii9jhLERVY"></script>
+        <HeadContent /></head>
       <body>
         {children}
         <Scripts />
