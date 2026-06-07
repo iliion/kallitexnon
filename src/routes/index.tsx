@@ -153,7 +153,7 @@ function HomePage() {
             <div>
               {/* aria-hidden="true" stops screen readers from reading the decorative number */}
               <span className="font-serif text-3xl font-light text-primary/40 select-none" aria-hidden="true">01</span>
-              <h3 className="mt-4 font-display text-xl font-semibold text-foreground tracking-tight">Ολιγομελή Τμήματα</h3>
+              <h3 className="mt-4 font-display text-xl font-semibold text-foreground tracking-tight">Ολιγομελή Εργαστήρια</h3>
               {/* Removed opacity modifier to guarantee contrast */}
               <p className="mt-3 text-sm md:text-base text-muted-foreground leading-relaxed">
                 Μικρές ομάδες για εξατομικευμένη καθοδήγηση, ουσιαστική σύνδεση και την καλύτερη δυνατή εμπειρία.

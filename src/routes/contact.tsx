@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Mail, MapPin, Phone, Instagram, Facebook } from "lucide-react";
+import { SiInstagram, SiFacebook, SiTiktok, SiGmail, SiGooglemaps, SiWhatsapp } from '@icons-pack/react-simple-icons';
 import { useState } from "react";
 
 export const Route = createFileRoute("/contact")({
@@ -32,7 +32,7 @@ function ContactPage() {
         </p>
       </header>
 
-      <div className="mt-12 grid gap-10 lg:grid-cols-2">
+      <div className="mt-12 grid gap-10 lg:grid-cols-1">
         {/* Form */}
         <form onSubmit={onSubmit} className="rounded-2xl bg-card p-6 shadow-card md:p-8" aria-label="Φόρμα επικοινωνίας">
           <div className="grid gap-4">
@@ -60,7 +60,7 @@ function ContactPage() {
           </div>
         </form>
 
-        <section className="mx-auto max-w-4xl px-6 py-24 md:py-5 rounded-2xl bg-[var(--lavender)]/50">
+        <section className="w-full rounded-2xl bg-[var(--lavender)]/50 p-6 md:p-8">
           {/* FAQ Header */}
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
             <h2 id="faq-heading" className="font-display text-3xl md:text-4xl font-tracking-tight text-foreground">
@@ -136,12 +136,39 @@ function ContactPage() {
         {/* Info + map */}
         <div>
           <ul className="space-y-4 rounded-2xl bg-[var(--mint)]/30 p-6">
-            <li className="flex items-start gap-3"><MapPin className="mt-1 h-5 w-5 text-primary" aria-hidden /><div><p className="font-semibold">Διεύθυνση</p><p className="text-sm text-foreground/80">Βέλο, Κορινθία</p></div></li>
-            <li className="flex items-start gap-3"><Mail className="mt-1 h-5 w-5 text-primary" aria-hidden /><div><p className="font-semibold">Email</p><a href="mailto:kallitechnon.poio@gmail.com" className="text-sm text-foreground/80 hover:text-primary">kallitechnon.poio@gmail.com</a></div></li>
-            <li className="flex items-start gap-3"><Phone className="mt-1 h-5 w-5 text-primary" aria-hidden /><div><p className="font-semibold">Τηλέφωνο</p><a href="tel:+302700000000" className="text-sm text-foreground/80 hover:text-primary">+30 27000 00000</a></div></li>
+            <li className="flex items-start gap-3">
+              <a href="https://g.page" target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 hover:text-primary group">
+                <SiGooglemaps className="mt-1 h-5 w-5 text-primary group-hover:text-primary" aria-hidden="true" />
+                <div>
+                  <p className="font-semibold text-foreground">Διεύθυνση</p>
+                  <p className="text-sm text-foreground/80 group-hover:text-primary">Βέλο, Κορινθία</p>
+                </div>
+              </a>
+            </li>
+            <li className="flex items-start gap-3">
+              <SiGmail className="mt-1 h-5 w-5 text-primary" aria-hidden="true" />
+              <div>
+                <p className="font-semibold">Email</p>
+                <a href="mailto:kallitechnon.poio@gmail.com" className="text-sm text-foreground/80 hover:text-primary">kallitechnon.poio@gmail.com</a>
+              </div>
+            </li>
+            <li className="flex items-start gap-3">
+              <SiWhatsapp className="mt-1 h-5 w-5 text-primary" aria-hidden="true" />
+              <div>
+                <p className="font-semibold">Τηλέφωνο</p>
+                <a href="tel:+302700000000" className="text-sm text-foreground/80 hover:text-primary">+30 6971620173</a>
+              </div>
+            </li>
             <li className="flex items-center gap-4 pt-2">
-              <a href="https://www.instagram.com/kallitechnon_poio" aria-label="Instagram" className="text-primary hover:opacity-80"><Instagram className="h-6 w-6" /></a>
-              <a href="https://www.facebook.com/profile.php?id=61582011255187" aria-label="Facebook" className="text-primary hover:opacity-80"><Facebook className="h-6 w-6" /></a>
+              <a href="https://www.instagram.com/kallitechnon_poio" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-primary hover:opacity-80">
+                <SiInstagram className="h-6 w-6" />
+              </a>
+              <a href="https://www.facebook.com/profile.php?id=61582011255187" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-primary hover:opacity-80">
+                <SiFacebook className="h-6 w-6" />
+              </a>
+              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="text-primary hover:opacity-80">
+                <SiTiktok className="h-6 w-6" />
+              </a>
             </li>
           </ul>
 
@@ -149,12 +176,13 @@ function ContactPage() {
             <iframe
               title="Χάρτης - Βέλο Κορινθίας"
               aria-label="Χάρτης Google για το Βέλο Κορινθίας"
-              src="https://www.google.com/maps?q=Velo+Corinthia+Greece&output=embed"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3145.1106874673665!2d22.7607028!3d37.9745461!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14a00d30233a6795%3A0x936773d3785fedbb!2zzprOsc67zrvOr8-EzrXPh869zr_OvSDOoM6_zrnPjg!5e0!3m2!1sen!2sgr!4v1780833093085!5m2!1sen!2sgr"
               className="h-72 w-full border-0"
               loading="lazy"
             />
           </div>
         </div>
+
       </div>
     </div>
   );

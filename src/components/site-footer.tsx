@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import imgPartner from "@/assets/footer_logos_el.svg?url";
-import { Instagram, Facebook, Mail, MapPin } from "lucide-react";
+import { SiInstagram, SiFacebook, SiTiktok, SiGmail, SiGooglemaps } from '@icons-pack/react-simple-icons';
+
 
 export function SiteFooter() {
   return (
@@ -27,14 +28,31 @@ export function SiteFooter() {
           </div>
 
           {/* Right: Contact & Logo Placeholder */}
-          <div>
+                    <div>
             <h3 className="text-sm font-semibold uppercase tracking-wide">Επικοινωνία</h3>
             <ul className="mt-2 space-y-2 text-sm">
-              <li className="flex items-center gap-2"><MapPin className="h-4 w-4" aria-hidden /> Βέλο, Κορινθία</li>
-              <li className="flex items-center gap-2"><Mail className="h-4 w-4" aria-hidden /> kallitechnon.poio@gmail.com</li>
+              <li className="flex items-center gap-2">
+                <a href="https://g.page/r/CbvtX3jTc2eTEBM" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary">
+                  <SiGooglemaps className="h-4 w-4" aria-hidden="true" /> 
+                  Βέλο, Κορινθία
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <a href="mailto:kallitechnon.poio@gmail.com" className="flex items-center gap-2 hover:text-primary">
+                  <SiGmail className="h-4 w-4" aria-hidden="true" /> 
+                  kallitechnon.poio@gmail.com
+                </a>
+              </li>
               <li className="flex items-center gap-3 pt-2">
-                <a href="https://www.instagram.com/kallitechnon_poio" aria-label="Instagram" className="hover:text-primary"><Instagram className="h-5 w-5" /></a>
-                <a href="https://www.facebook.com/profile.php?id=61582011255187" aria-label="Facebook" className="hover:text-primary"><Facebook className="h-5 w-5" /></a>
+                <a href="https://www.instagram.com/kallitechnon_poio" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-primary">
+                  <SiInstagram className="h-5 w-5" />
+                </a>
+                <a href="https://www.facebook.com/kallitechnon.poio" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-primary">
+                  <SiFacebook className="h-5 w-5" />
+                </a>
+                <a href="https://www.tiktok.com/@kallitechnon.poio" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="hover:text-primary">
+                  <SiTiktok className="h-5 w-5" />
+                </a>
               </li>
             </ul>
           </div>
