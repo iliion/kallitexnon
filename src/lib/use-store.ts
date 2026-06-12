@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 
 export function useStore<T>(read: () => T): T {
-  const [val, setVal] = useState<T>(() => read());
+  const [val, setVal] = useState<T>(() => {
+    if (typeof window === "undefined") return read();
+    return read();
+  });
+
   useEffect(() => {
     setVal(read());
+
     const handler = () => setVal(read());
     window.addEventListener("kp-store-change", handler);
     window.addEventListener("storage", handler);
@@ -13,5 +18,6 @@ export function useStore<T>(read: () => T): T {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return val;
 }

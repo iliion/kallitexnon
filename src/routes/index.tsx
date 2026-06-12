@@ -18,8 +18,8 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   const announcements = useStore(getAnnouncements);
-  const workshops = useStore(getWorkshops).filter((w) => !w.past).slice(0, 3);
-
+  const workshops = useStore(getWorkshops).filter((w) => !w.past);
+  
   return (
     <>
       {/* Hero */}
@@ -112,9 +112,16 @@ function HomePage() {
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {workshops.map((w) => (
               <article key={w.id} className="overflow-hidden rounded-2xl bg-card shadow-card">
-                <div className="aspect-[4/3] w-full bg-[var(--lavender)]/40">
+                {/* <div className="aspect-[4/3] w-full bg-[var(--lavender)]/40">
                   {w.image ? (
                     <img src={w.image} alt={w.imageAlt} className="h-full w-full object-cover" loading="lazy" />
+                  ) : (
+                    <div className="grid h-full place-items-center text-primary/60"><Palette className="h-12 w-12" aria-hidden /></div>
+                  )}
+                </div> */}
+                <div className="aspect-[3/4] w-full overflow-hidden bg-[var(--lavender)]/40">
+                  {w.image ? (
+                    <img src={w.image} alt={w.imageAlt} className="h-full w-full object-cover object-top transition-transform duration-300 hover:scale-110" loading="lazy" />
                   ) : (
                     <div className="grid h-full place-items-center text-primary/60"><Palette className="h-12 w-12" aria-hidden /></div>
                   )}
@@ -122,7 +129,7 @@ function HomePage() {
                 <div className="p-5">
                   <p className="text-xs uppercase tracking-wider text-muted-foreground">{w.date}</p>
                   <h3 className="mt-1 font-display text-xl">{w.title}</h3>
-                  <p className="mt-2 line-clamp-3 text-sm text-foreground/80">{w.description}</p>
+                  <p className="mt-2 text-sm text-foreground/80">{w.description}</p>
                   <div className="mt-4 flex items-center justify-between">
                     <span className="font-semibold text-primary">{w.price}</span>
                     <Link to="/booking" className="text-sm font-semibold text-primary hover:underline">Κράτηση →</Link>

@@ -57,7 +57,11 @@ function AdminWorkshopsPage() {
           </thead>
           <tbody>
             {list.length === 0 && (
-              <tr><td colSpan={6} className="px-3 py-6 text-center text-muted-foreground">Καμία εγγραφή.</td></tr>
+              <tr>
+                <td colSpan={6} className="px-3 py-6 text-center text-muted-foreground">
+                  Καμία εγγραφή.
+                </td>
+              </tr>
             )}
             {list.map((w) => (
               <tr key={w.id} className="border-t border-border">
@@ -68,7 +72,13 @@ function AdminWorkshopsPage() {
                 <td className="px-3 py-2">{w.past ? "Παρελθόν" : "Τρέχον"}</td>
                 <td className="px-3 py-2">
                   <div className="flex justify-end gap-1">
-                    <button aria-label={`Επεξεργασία ${w.title}`} onClick={() => setEditing(w)} className="rounded-md p-2 hover:bg-accent"><Pencil className="h-4 w-4" /></button>
+                    <button
+                      aria-label={`Επεξεργασία ${w.title}`}
+                      onClick={() => setEditing(w)}
+                      className="rounded-md p-2 hover:bg-accent"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </button>
                     <button
                       aria-label={w.past ? `Επαναφορά ${w.title}` : `Μετακίνηση στο παρελθόν ${w.title}`}
                       onClick={() => moveToPast(w.id, !w.past)}
@@ -78,7 +88,9 @@ function AdminWorkshopsPage() {
                     </button>
                     <button
                       aria-label={`Διαγραφή ${w.title}`}
-                      onClick={() => { if (confirm(`Διαγραφή του "${w.title}";`)) deleteWorkshop(w.id); }}
+                      onClick={() => {
+                        if (confirm(`Διαγραφή του "${w.title}";`)) deleteWorkshop(w.id);
+                      }}
                       className="rounded-md p-2 text-destructive hover:bg-destructive/10"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -98,9 +110,12 @@ function AdminWorkshopsPage() {
 
 function EditDialog({ workshop, onClose }: { workshop: Workshop; onClose: () => void }) {
   const [w, setW] = useState<Workshop>(workshop);
+  const [errors, setErrors] = useState<Partial<Record<keyof Workshop, string>>>({});
 
   function set<K extends keyof Workshop>(k: K, v: Workshop[K]) {
     setW((prev) => ({ ...prev, [k]: v }));
+    // Clear error on change
+    if (errors[k]) setErrors((prev) => ({ ...prev, [k]: undefined }));
   }
 
   function onFile(e: React.ChangeEvent<HTMLInputElement>) {
@@ -111,23 +126,80 @@ function EditDialog({ workshop, onClose }: { workshop: Workshop; onClose: () => 
     reader.readAsDataURL(f);
   }
 
+  function validate(): boolean {
+    const next: Partial<Record<keyof Workshop, string>> = {};
+    if (!w.title.trim()) next.title = "Υποχρεωτικό πεδίο";
+    if (!w.date.trim()) next.date = "Υποχρεωτικό πεδίο";
+    if (w.image && !w.imageAlt.trim()) next.imageAlt = "Απαιτείται alt κείμενο όταν υπάρχει εικόνα";
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  }
+
+  function handleSave() {
+    if (!validate()) return;
+    upsertWorkshop(w);
+    onClose();
+  }
+
   return (
-    <div role="dialog" aria-modal="true" aria-labelledby="edit-title" className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 p-4 overflow-y-auto">
-      <div className="w-full max-w-lg rounded-2xl bg-card p-6 shadow-soft my-8 flex flex-col max-h-[90vh]">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="edit-title"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-foreground/40 p-4 overflow-y-auto"
+    >
+      <div className="w-full max-w-lg rounded-2xl bg-card p-6 shadow-soft my-8 flex flex-col">
+        {/* Header */}
         <div className="flex items-center justify-between flex-shrink-0">
-          <h2 id="edit-title" className="font-display text-xl">{workshop.title ? "Επεξεργασία" : "Νέο εργαστήρι"}</h2>
-          <button onClick={onClose} aria-label="Κλείσιμο" className="rounded-md p-2 hover:bg-accent"><X className="h-5 w-5" /></button>
+          <h2 id="edit-title" className="font-display text-xl">
+            {workshop.title ? "Επεξεργασία" : "Νέο εργαστήρι"}
+          </h2>
+          <button onClick={onClose} aria-label="Κλείσιμο" className="rounded-md p-2 hover:bg-accent">
+            <X className="h-5 w-5" />
+          </button>
         </div>
-        <form
-          onSubmit={(e) => { e.preventDefault(); upsertWorkshop(w); onClose(); }}
-          className="mt-4 grid gap-3 overflow-y-auto flex-1 pr-2"
-        >
-          <Field label="Τίτλος"><input required className="kp-input" value={w.title} onChange={(e) => set("title", e.target.value)} /></Field>
-          <Field label="Ημερομηνία/Ώρα"><input required className="kp-input" value={w.date} onChange={(e) => set("date", e.target.value)} /></Field>
-          <Field label="Περιγραφή"><textarea rows={3} className="kp-input" value={w.description} onChange={(e) => set("description", e.target.value)} /></Field>
-          <Field label="Τιμή"><input className="kp-input" value={w.price} onChange={(e) => set("price", e.target.value)} /></Field>
+
+        {/* Fields — plain div, no form element */}
+        <div className="mt-4 grid gap-3">
+          <Field label="Τίτλος *" error={errors.title}>
+            <input
+              className="kp-input"
+              value={w.title}
+              onChange={(e) => set("title", e.target.value)}
+            />
+          </Field>
+
+          <Field label="Ημερομηνία/Ώρα *" error={errors.date}>
+            <input
+              className="kp-input"
+              value={w.date}
+              onChange={(e) => set("date", e.target.value)}
+            />
+          </Field>
+
+          <Field label="Περιγραφή">
+            <textarea
+              rows={3}
+              className="kp-input"
+              value={w.description}
+              onChange={(e) => set("description", e.target.value)}
+            />
+          </Field>
+
+          <Field label="Τιμή">
+            <input
+              className="kp-input"
+              value={w.price}
+              onChange={(e) => set("price", e.target.value)}
+            />
+          </Field>
+
           <Field label="Κατηγορία">
-            <select className="kp-input" value={w.category} onChange={(e) => set("category", e.target.value as Workshop["category"])}>
+            <select
+              className="kp-input"
+              value={w.category}
+              onChange={(e) => set("category", e.target.value as Workshop["category"])}
+            >
               <option value="art-history">Εικαστικά & Ιστορικά</option>
               <option value="birthday">Γενέθλια</option>
               <option value="adults">Βραδιές Ενηλίκων</option>
@@ -135,39 +207,82 @@ function EditDialog({ workshop, onClose }: { workshop: Workshop; onClose: () => 
               <option value="other">Άλλο</option>
             </select>
           </Field>
+
           <Field label="Εικόνα (URL ή upload)">
-            <input className="kp-input" placeholder="https://..." value={w.image} onChange={(e) => set("image", e.target.value)} />
-            <input type="file" accept="image/*" onChange={onFile} className="mt-2 text-sm" aria-label="Μεταφόρτωση εικόνας" />
+            <input
+              className="kp-input"
+              placeholder="https://..."
+              value={w.image}
+              onChange={(e) => set("image", e.target.value)}
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={onFile}
+              className="mt-2 text-sm"
+              aria-label="Μεταφόρτωση εικόνας"
+            />
           </Field>
-          <Field label="Εναλλακτικό κείμενο εικόνας (alt) — υποχρεωτικό για προσβασιμότητα">
-            <input required={!!w.image} className="kp-input" value={w.imageAlt} onChange={(e) => set("imageAlt", e.target.value)} />
+
+          <Field
+            label="Εναλλακτικό κείμενο εικόνας (alt)"
+            error={errors.imageAlt}
+          >
+            <input
+              className="kp-input"
+              value={w.imageAlt}
+              onChange={(e) => set("imageAlt", e.target.value)}
+            />
           </Field>
+
           <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={!!w.past} onChange={(e) => set("past", e.target.checked)} />
+            <input
+              type="checkbox"
+              checked={!!w.past}
+              onChange={(e) => set("past", e.target.checked)}
+            />
             Παρελθοντικό εργαστήρι
           </label>
-        </form>
-        <div className="mt-4 flex justify-end gap-2 flex-shrink-0 border-t border-border pt-4">
-          <button type="button" onClick={onClose} className="rounded-md border border-border px-4 py-2 text-sm hover:bg-accent">Ακύρωση</button>
-          <button 
-            type="submit" 
-            onClick={() => { upsertWorkshop(w); onClose(); }} 
+        </div>
+
+        {/* Footer */}
+        <div className="mt-6 flex justify-end gap-2 border-t border-border pt-4">
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-md border border-border px-4 py-2 text-sm hover:bg-accent"
+          >
+            Ακύρωση
+          </button>
+          <button
+            type="button"
+            onClick={handleSave}
             className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
           >
             Αποθήκευση
           </button>
         </div>
       </div>
+
       <style>{`.kp-input{width:100%;border:1px solid var(--input);background:var(--background);border-radius:.5rem;padding:.5rem .75rem;font:inherit}`}</style>
     </div>
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({
+  label,
+  error,
+  children,
+}: {
+  label: string;
+  error?: string;
+  children: React.ReactNode;
+}) {
   return (
-    <label className="block text-sm">
+    <div className="block text-sm">
       <span className="font-medium">{label}</span>
       <div className="mt-1">{children}</div>
-    </label>
+      {error && <p className="mt-1 text-xs text-destructive">{error}</p>}
+    </div>
   );
 }
