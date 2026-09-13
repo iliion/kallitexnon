@@ -16,11 +16,24 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const [sent, setSent] = useState(false);
+async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault();
+  const formData = new FormData(e.currentTarget);
+  formData.append("access_key", "9d7387ff-c08b-4a03-977f-23f79348802f");
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  const response = await fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await response.json();
+
+  if (data.success) {
     setSent(true);
+  } else {
+    alert("Υπήρξε κάποιο πρόβλημα κατά την αποστολή. Παρακαλώ δοκιμάστε ξανά.");
   }
+}
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-16">
