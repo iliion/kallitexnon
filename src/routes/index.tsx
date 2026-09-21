@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import heroImg from "@/assets/banner.png";
+
 import { useStore } from "@/lib/use-store";
 import { getAnnouncements, getWorkshops } from "@/lib/workshops-store";
 import { Sparkles, Palette, BookOpen, ArrowRight } from "lucide-react";
