@@ -144,7 +144,7 @@ async function supabaseFetch(urlPath: string, init: RequestInit = {}) {
   const headers = new Headers(init.headers);
   headers.set("apikey", secret);
   headers.set("authorization", `Bearer ${secret}`);
-  return fetch(`${url}${urlPath}`, { ...init, headers });
+  return globalThis.fetch(`${url}${urlPath}`, { ...init, headers });
 }
 
 async function findWorkshopTable(): Promise<"workshops" | "workshop"> {
