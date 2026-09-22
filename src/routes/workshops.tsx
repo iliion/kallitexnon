@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useStore } from "@/lib/use-store";
-import { getWorkshops } from "@/lib/workshops-store";
+import { getWorkshops, refreshWorkshops } from "@/lib/workshops-store";
 import { Palette } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/workshops")({
   head: () => ({
@@ -25,6 +25,9 @@ const categories = [
 ] as const;
 
 function WorkshopsPage() {
+  useEffect(() => {
+    void refreshWorkshops();
+  }, []);
   const all = useStore(getWorkshops);
   const [filter, setFilter] = useState<string>("all");
   const current = all.filter((w) => !w.past && (filter === "all" || w.category === filter));

@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroImg from "@/assets/banner.png";
 import { useStore } from "@/lib/use-store";
-import { getAnnouncements, getWorkshops } from "@/lib/workshops-store";
+import { getAnnouncements, getWorkshops, refreshWorkshops } from "@/lib/workshops-store";
 import { Sparkles, Palette, BookOpen, ArrowRight } from "lucide-react";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -17,6 +18,9 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
+  useEffect(() => {
+    void refreshWorkshops();
+  }, []);
   const announcements = useStore(getAnnouncements);
   const workshops = useStore(getWorkshops).filter((w) => !w.past);
   

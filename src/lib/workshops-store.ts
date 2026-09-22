@@ -3,13 +3,12 @@ import workshop2 from "@/assets/workshop2.png?url";
 import workshop3 from "@/assets/workshop3.png?url";
 import workshop4 from "@/assets/workshop4.png?url";
 
-// Simple JSON-based store using localStorage. Client-only.
 export type Workshop = {
   id: string;
   title: string;
-  date: string; // ISO or free text
+  date: string;
   description: string;
-  image: string; // URL or data URL
+  image: string;
   imageAlt: string;
   price: string;
   category: "kids" | "birthday" | "adults" | "art-history" | "other";
@@ -26,39 +25,6 @@ const WORKSHOPS_KEY = "kp_workshops_v1";
 const ANN_KEY = "kp_announcements_v1";
 
 const seed: Workshop[] = [
-  // {
-  //   id: "w1",
-  //   title: "Εικαστικά & Ιστορικά Εργαστήρια",
-  //   date: "",
-  //   description:
-  //     "Η τέχνη συναντά την ιστορία της. Εμπνεόμαστε από Βαν Γκογκ, Μοντριάν, Φρίντα Κάλο και δημιουργούμε τα δικά μας έργα.",
-  //   image: "",
-  //   imageAlt: "Παιδιά ζωγραφίζουν στο εργαστήρι",
-  //   price: "",
-  //   category: "art-history",
-  // },
-  // {
-  //   id: "w2",
-  //   title: "Γενέθλια μέσα από την Τέχνη",
-  //   date: "",
-  //   description:
-  //     "Ένα μοναδικό πάρτι: το παιδί και οι φίλοι του δημιουργούν μαζί έργα τέχνης μέσα από διαδραστικά τεχνο-ιστορικά παιχνίδια.",
-  //   image: "",
-  //   imageAlt: "Παιδικό πάρτι γενεθλίων με τέχνη",
-  //   price: "",
-  //   category: "birthday",
-  // },
-  // {
-  //   id: "w3",
-  //   title: "Βραδιές Τέχνης για Ενηλίκους",
-  //   date: "",
-  //   description:
-  //     "Σε χαλαρή ατμόσφαιρα, με ένα ποτήρι κρασί, δημιουργούμε μαζί. 18+, χωρίς όριο ηλικίας.",
-  //   image: "",
-  //   imageAlt: "Ενήλικες ζωγραφίζουν σε βραδιά τέχνης",
-  //   price: "",
-  //   category: "adults",
-  // },
   {
     id: "w4",
     title: "Κυκλαδίτικο εικαστικό εργαστήρι",
@@ -81,7 +47,7 @@ const seed: Workshop[] = [
     price: "",
     category: "kids",
   },
-    {
+  {
     id: "w6",
     title: "Κατασκευή Βάζου με Καλοκαιρινά Στοιχεία",
     date: "",
@@ -92,7 +58,7 @@ const seed: Workshop[] = [
     price: "",
     category: "kids",
   },
-    {
+  {
     id: "w7",
     title: "Ένα παράθυρο στον βυθό",
     date: "",
@@ -130,48 +96,114 @@ function write<T>(key: string, val: T) {
   window.dispatchEvent(new CustomEvent("kp-store-change"));
 }
 
-// export function getWorkshops(): Workshop[] {
-//   const list = read<Workshop[] | null>(WORKSHOPS_KEY, null);
-//   if (!list) {
-//     write(WORKSHOPS_KEY, seed);
-//     return seed;
-//   }
-//   return list;
-// }
+let workshopCache: Workshop[] = seed;
+let workshopsLoaded = false;
+let workshopsLoading: Promise<void> | null = null;
+
+function emitWorkshopChange() {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("kp-store-change"));
+  }
+}
+
+function localWorkshopList(): Workshop[] | null {
+  return read<Workshop[] | null>(WORKSHOPS_KEY, null);
+}
 
 export function getWorkshops(): Workshop[] {
-  if (typeof window === "undefined") return []; // SSR: never render workshops server-side
-  const list = read<Workshop[] | null>(WORKSHOPS_KEY, null);
-  if (!list || list.length === 0) {
-    write(WORKSHOPS_KEY, seed);
-    return seed;
+  if (typeof window === "undefined") return seed;
+  if (!workshopsLoaded) {
+    const local = localWorkshopList();
+    if (local?.length) workshopCache = local;
   }
-  return list;
+  return workshopCache;
 }
 
-export function saveWorkshops(list: Workshop[]) {
-  write(WORKSHOPS_KEY, list);
+export async function refreshWorkshops(options?: { migrateLocalIfRemoteEmpty?: boolean }) {
+  if (typeof window === "undefined") return;
+  if (workshopsLoading) return workshopsLoading;
+
+  workshopsLoading = (async () => {
+    try {
+      const response = await fetch("/api/workshops", { cache: "no-store" });
+      if (!response.ok) throw new Error(await response.text());
+      const payload = (await response.json()) as { workshops?: Workshop[] };
+      const remote = Array.isArray(payload.workshops) ? payload.workshops : [];
+      const local = localWorkshopList();
+
+      if (remote.length > 0) {
+        workshopCache = remote;
+        workshopsLoaded = true;
+        write(WORKSHOPS_KEY, remote);
+        return;
+      }
+
+      const fallback = local?.length ? local : seed;
+      workshopCache = fallback;
+      workshopsLoaded = true;
+      emitWorkshopChange();
+
+      if (options?.migrateLocalIfRemoteEmpty && fallback.length > 0) {
+        try {
+          await saveWorkshops(fallback);
+        } catch (error) {
+          console.error("Could not migrate local workshops to Supabase", error);
+        }
+      }
+    } catch (error) {
+      console.error("Could not load workshops from Supabase", error);
+      const local = localWorkshopList();
+      workshopCache = local?.length ? local : seed;
+      workshopsLoaded = true;
+      emitWorkshopChange();
+    } finally {
+      workshopsLoading = null;
+    }
+  })();
+
+  return workshopsLoading;
 }
 
-export function upsertWorkshop(w: Workshop) {
-  const list = getWorkshops();
+export async function saveWorkshops(list: Workshop[]) {
+  const response = await fetch("/api/workshops", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ workshops: list }),
+  });
+
+  if (!response.ok) {
+    const message = await response.text();
+    throw new Error(message || "Αποτυχία αποθήκευσης εργαστηρίων");
+  }
+
+  const payload = (await response.json()) as { workshops?: Workshop[] };
+  workshopCache = Array.isArray(payload.workshops) ? payload.workshops : list;
+  workshopsLoaded = true;
+  write(WORKSHOPS_KEY, workshopCache);
+  emitWorkshopChange();
+  return workshopCache;
+}
+
+export async function upsertWorkshop(w: Workshop) {
+  const list = [...getWorkshops()];
   const idx = list.findIndex((x) => x.id === w.id);
   if (idx >= 0) list[idx] = w;
   else list.push(w);
-  saveWorkshops(list);
+  return saveWorkshops(list);
 }
 
-export function deleteWorkshop(id: string) {
-  saveWorkshops(getWorkshops().filter((w) => w.id !== id));
+export async function deleteWorkshop(id: string) {
+  return saveWorkshops(getWorkshops().filter((w) => w.id !== id));
 }
 
-export function moveToPast(id: string, past: boolean) {
+export async function moveToPast(id: string, past: boolean) {
   const list = getWorkshops().map((w) => (w.id === id ? { ...w, past } : w));
-  saveWorkshops(list);
+  return saveWorkshops(list);
 }
 
+// Announcements intentionally remain as they were. They can be migrated separately later.
 export function getAnnouncements(): Announcement[] {
-  if (typeof window === "undefined") return []; // SSR: same as above
+  if (typeof window === "undefined") return [];
   const list = read<Announcement[] | null>(ANN_KEY, null);
   if (!list) {
     write(ANN_KEY, seedAnn);

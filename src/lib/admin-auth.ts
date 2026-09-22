@@ -1,20 +1,30 @@
-// Simple, client-side admin auth. NOT secure — placeholder for a JSON-only setup.
-export const ADMIN_PASSWORD = "kalitexnon2025";
-const KEY = "kp_admin_session";
-
-export function isAdminLoggedIn(): boolean {
+export async function isAdminLoggedIn(): Promise<boolean> {
   if (typeof window === "undefined") return false;
-  return localStorage.getItem(KEY) === "1";
-}
-
-export function loginAdmin(password: string): boolean {
-  if (password === ADMIN_PASSWORD) {
-    localStorage.setItem(KEY, "1");
-    return true;
+  try {
+    const response = await fetch("/api/admin/session", { cache: "no-store" });
+    return response.ok;
+  } catch {
+    return false;
   }
-  return false;
 }
 
-export function logoutAdmin() {
-  localStorage.removeItem(KEY);
+export async function loginAdmin(password: string): Promise<boolean> {
+  try {
+    const response = await fetch("/api/admin/login", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ password }),
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+export async function logoutAdmin() {
+  try {
+    await fetch("/api/admin/logout", { method: "POST" });
+  } catch {
+    // If the request fails, reloading still leaves the server to re-check the cookie.
+  }
 }

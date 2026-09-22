@@ -19,7 +19,7 @@ function AdminLayout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setAuthed(isAdminLoggedIn());
+    void isAdminLoggedIn().then(setAuthed);
   }, []);
 
   if (authed === null) return <div className="p-8">Φόρτωση…</div>;
@@ -35,7 +35,7 @@ function AdminLayout() {
             <Link to="/admin" className={`rounded-md px-3 py-1.5 text-sm ${path === "/admin" ? "bg-accent" : ""}`}>Εργαστήρια</Link>
             <Link to="/admin/announcements" className={`rounded-md px-3 py-1.5 text-sm ${path.startsWith("/admin/announcements") ? "bg-accent" : ""}`}>Ανακοινώσεις</Link>
             <button
-              onClick={() => { logoutAdmin(); setAuthed(false); navigate({ to: "/admin" }); }}
+              onClick={() => { void logoutAdmin().finally(() => { setAuthed(false); navigate({ to: "/admin" }); }); }}
               className="ml-2 inline-flex items-center gap-1 rounded-md border border-border px-3 py-1.5 text-sm hover:bg-accent"
             >
               <LogOut className="h-4 w-4" aria-hidden /> Αποσύνδεση
@@ -56,8 +56,11 @@ function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (loginAdmin(pw)) onSuccess();
-          else setErr("Λάθος κωδικός");
+          setErr("");
+          void loginAdmin(pw).then((ok) => {
+            if (ok) onSuccess();
+            else setErr("Λάθος κωδικός ή λείπει η ρύθμιση ADMIN_PASSWORD στο Railway");
+          });
         }}
         className="w-full max-w-sm rounded-2xl bg-card p-8 shadow-soft"
         aria-label="Σύνδεση διαχειριστή"

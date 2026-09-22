@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "@/lib/use-store";
 import {
   Workshop,
@@ -7,6 +7,7 @@ import {
   getWorkshops,
   moveToPast,
   newId,
+  refreshWorkshops,
   upsertWorkshop,
 } from "@/lib/workshops-store";
 import { Pencil, Trash2, Archive, ArchiveRestore, Plus, X } from "lucide-react";
@@ -30,6 +31,11 @@ const empty = (): Workshop => ({
 function AdminWorkshopsPage() {
   const list = useStore(getWorkshops);
   const [editing, setEditing] = useState<Workshop | null>(null);
+  const [actionError, setActionError] = useState("");
+
+  useEffect(() => {
+    void refreshWorkshops({ migrateLocalIfRemoteEmpty: true });
+  }, []);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
@@ -42,6 +48,12 @@ function AdminWorkshopsPage() {
           <Plus className="h-4 w-4" aria-hidden /> Νέο εργαστήρι
         </button>
       </div>
+
+      {actionError && (
+        <p className="mt-4 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+          {actionError}
+        </p>
+      )}
 
       <div className="mt-6 overflow-hidden rounded-xl border border-border bg-card">
         <table className="w-full text-left text-sm">
@@ -81,7 +93,12 @@ function AdminWorkshopsPage() {
                     </button>
                     <button
                       aria-label={w.past ? `Επαναφορά ${w.title}` : `Μετακίνηση στο παρελθόν ${w.title}`}
-                      onClick={() => moveToPast(w.id, !w.past)}
+                      onClick={() => {
+                        setActionError("");
+                        void moveToPast(w.id, !w.past).catch((error) =>
+                          setActionError(error instanceof Error ? error.message : "Αποτυχία αποθήκευσης"),
+                        );
+                      }}
                       className="rounded-md p-2 hover:bg-accent"
                     >
                       {w.past ? <ArchiveRestore className="h-4 w-4" /> : <Archive className="h-4 w-4" />}
@@ -89,7 +106,12 @@ function AdminWorkshopsPage() {
                     <button
                       aria-label={`Διαγραφή ${w.title}`}
                       onClick={() => {
-                        if (confirm(`Διαγραφή του "${w.title}";`)) deleteWorkshop(w.id);
+                        if (confirm(`Διαγραφή του "${w.title}";`)) {
+                          setActionError("");
+                          void deleteWorkshop(w.id).catch((error) =>
+                            setActionError(error instanceof Error ? error.message : "Αποτυχία διαγραφής"),
+                          );
+                        }
                       }}
                       className="rounded-md p-2 text-destructive hover:bg-destructive/10"
                     >
@@ -111,6 +133,8 @@ function AdminWorkshopsPage() {
 function EditDialog({ workshop, onClose }: { workshop: Workshop; onClose: () => void }) {
   const [w, setW] = useState<Workshop>(workshop);
   const [errors, setErrors] = useState<Partial<Record<keyof Workshop, string>>>({});
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState("");
 
   function set<K extends keyof Workshop>(k: K, v: Workshop[K]) {
     setW((prev) => ({ ...prev, [k]: v }));
@@ -135,10 +159,18 @@ function EditDialog({ workshop, onClose }: { workshop: Workshop; onClose: () => 
     return Object.keys(next).length === 0;
   }
 
-  function handleSave() {
-    if (!validate()) return;
-    upsertWorkshop(w);
-    onClose();
+  async function handleSave() {
+    if (!validate() || saving) return;
+    setSaving(true);
+    setSaveError("");
+    try {
+      await upsertWorkshop(w);
+      onClose();
+    } catch (error) {
+      setSaveError(error instanceof Error ? error.message : "Αποτυχία αποθήκευσης");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -245,6 +277,12 @@ function EditDialog({ workshop, onClose }: { workshop: Workshop; onClose: () => 
           </label>
         </div>
 
+        {saveError && (
+          <p className="mt-4 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            {saveError}
+          </p>
+        )}
+
         {/* Footer */}
         <div className="mt-6 flex justify-end gap-2 border-t border-border pt-4">
           <button
@@ -256,10 +294,11 @@ function EditDialog({ workshop, onClose }: { workshop: Workshop; onClose: () => 
           </button>
           <button
             type="button"
-            onClick={handleSave}
-            className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+            onClick={() => void handleSave()}
+            disabled={saving}
+            className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Αποθήκευση
+            {saving ? "Αποθήκευση…" : "Αποθήκευση"}
           </button>
         </div>
       </div>
