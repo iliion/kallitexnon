@@ -173,16 +173,29 @@ async function loadWorkshopSnapshot(): Promise<Workshop[]> {
   return rows[0].data as Workshop[];
 }
 
-function dataUrlToUpload(image: string) {
-  const match = /^data:([^;]+);base64,(.+)$/s.exec(image);
+function dataUrlToUpload(media: string) {
+  const match = /^data:([^;]+);base64,(.+)$/s.exec(media);
   if (!match) return null;
+
   const mime = match[1];
   const bytes = Buffer.from(match[2], "base64");
-  const ext =
-    mime === "image/png" ? "png" :
-    mime === "image/webp" ? "webp" :
-    mime === "image/gif" ? "gif" :
-    mime === "image/svg+xml" ? "svg" : "jpg";
+
+  const extensions: Record<string, string> = {
+    "image/jpeg": "jpg",
+    "image/png": "png",
+    "image/webp": "webp",
+    "image/gif": "gif",
+    "image/svg+xml": "svg",
+    "video/mp4": "mp4",
+    "video/webm": "webm",
+  };
+
+  const ext = extensions[mime];
+
+  if (!ext) {
+    throw new Error(`Μη υποστηριζόμενος τύπος αρχείου: ${mime}`);
+  }
+
   return { mime, bytes, ext };
 }
 
@@ -205,23 +218,26 @@ async function uploadDataUrl(image: string, workshopId: string): Promise<string>
     },
     body: parsed.bytes,
   });
-  if (!r.ok) throw new Error(`Αποτυχία ανεβάσματος εικόνας: ${await r.text()}`);
+  if (!r.ok) throw new Error(`Αποτυχία ανεβάσματος αρχείου: ${await r.text()}`);
   return `${url}/storage/v1/object/public/${encodeURIComponent(bucket)}/${encodeURIComponent(objectName)}`;
 }
 
 async function normalizeWorkshopImages(list: Workshop[]) {
   const normalized: Workshop[] = [];
+
   for (const item of list) {
     normalized.push({
       ...item,
-      image: item.image?.startsWith("data:image/")
-        ? await uploadDataUrl(item.image, item.id)
-        : item.image,
+      image:
+        item.image?.startsWith("data:image/") ||
+        item.image?.startsWith("data:video/")
+          ? await uploadDataUrl(item.image, item.id)
+          : item.image,
     });
   }
+
   return normalized;
 }
-
 async function saveWorkshopSnapshot(list: Workshop[]) {
   const table = await findWorkshopTable();
   const normalized = await normalizeWorkshopImages(list);
