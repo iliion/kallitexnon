@@ -240,7 +240,7 @@ function EditDialog({ workshop, onClose }: { workshop: Workshop; onClose: () => 
             </select>
           </Field>
 
-          <Field label="Εικόνα (URL ή upload)">
+          <Field label="Εικόνα ή βίντεο (URL ή upload)">
             <input
               className="kp-input"
               placeholder="https://..."
@@ -249,10 +249,10 @@ function EditDialog({ workshop, onClose }: { workshop: Workshop; onClose: () => 
             />
             <input
               type="file"
-              accept="image/*"
+              accept="image/*,video/mp4,video/webm"
               onChange={onFile}
               className="mt-2 text-sm"
-              aria-label="Μεταφόρτωση εικόνας"
+             aria-label="Μεταφόρτωση εικόνας ή βίντεο"
             />
           </Field>
 
