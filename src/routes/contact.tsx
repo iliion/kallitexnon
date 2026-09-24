@@ -89,7 +89,7 @@ async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
             
             {/* Question 1 */}
             <div className="p-6 rounded-2xl bg-card border border-border/60 shadow-sm">
-              <h3 className="font-display text-lg font-semibold text-foreground flex items-start gap-3">
+              <h3 className="font-display text-lg font-semibold text-foreground text-center">
                 {/* aria-hidden hides the standalone Greek question mark from screen readers */}
                
                 <span>Χρειάζεται το παιδί να έχει προηγούμενη εμπειρία ή να ξέρει να ζωγραφίζει;</span>
@@ -101,7 +101,7 @@ async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
 
             {/* Question 2 */}
             <div className="p-6 rounded-2xl bg-card border border-border/60 shadow-sm">
-              <h3 className="font-display text-lg font-semibold text-foreground flex items-start gap-3">
+              <h3 className="font-display text-lg font-semibold text-foreground text-center">
                 
                 <span>Τα υλικά περιλαμβάνονται στην τιμή;</span>
               </h3>
@@ -112,7 +112,7 @@ async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
 
             {/* Question 3 */}
             <div className="p-6 rounded-2xl bg-card border border-border/60 shadow-sm">
-              <h3 className="font-display text-lg font-semibold text-foreground flex items-start gap-3">
+              <h3 className="font-display text-lg font-semibold text-foreground text-center">
                 
                 <span>Πόση ώρα διαρκεί ένα εργαστήριο;</span>
               </h3>
@@ -123,7 +123,7 @@ async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
 
             {/* Question 4 */}
             <div className="p-6 rounded-2xl bg-card border border-border/60 shadow-sm">
-              <h3 className="font-display text-lg font-semibold text-foreground flex items-start gap-3">
+              <h3 className="font-display text-lg font-semibold text-foreground text-center">
                 
                 <span>Πώς γίνεται η κράτηση θέσης;</span>
               </h3>
@@ -134,7 +134,7 @@ async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
 
             {/* Question 5 */}
             <div className="p-6 rounded-2xl bg-card border border-border/60 shadow-sm">
-              <h3 className="font-display text-lg font-semibold text-foreground flex items-start gap-3">
+              <h3 className="font-display text-lg font-semibold text-foreground text-center">
                 
                 <span>Χρειάζεται να παραμείνουν οι γονείς στον χώρο κατά τη διάρκεια;</span>
               </h3>
