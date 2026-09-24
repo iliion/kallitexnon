@@ -21,14 +21,14 @@ function BookingPage() {
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Κράτηση</p>
         <h1 className="mt-3 font-display text-4xl md:text-5xl">Κρατήστε τη θέση σας</h1>
         <p className="mt-4 text-lg text-foreground/80">
-          Επιλέξτε ημερομηνία και ώρα από το ημερολόγιο. Θα λάβετε αυτόματη επιβεβαίωση στο email σας.
+          Συμπληρώστε τη φόρμα ενδιαφέροντος και θα επικοινωνήσουμε μαζί σας για επιβεβαίωση διαθεσιμότητας και θέσης.
         </p>
       </header>
 
       <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-card shadow-card">
         <iframe
           src={CALENDLY_URL}
-          title="Ημερολόγιο κράτησης Calendly"
+         title="Φόρμα κράτησης"
           aria-label="Ημερολόγιο κράτησης"
           className="h-[750px] w-full border-0"
         />
