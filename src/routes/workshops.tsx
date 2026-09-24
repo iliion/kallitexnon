@@ -96,13 +96,30 @@ function WorkshopsPage() {
           <div className="mt-6 grid gap-4 md:grid-cols-3 lg:grid-cols-4">
             {past.map((w) => (
               <figure key={w.id} className="overflow-hidden rounded-xl bg-card shadow-card">
-                <div className="aspect-square w-full bg-[var(--mint)]/40">
-                  {w.image ? (
-                    <img src={w.image} alt={w.imageAlt} className="h-full w-full object-cover" loading="lazy" />
-                  ) : (
-                    <div className="grid h-full place-items-center text-primary/60"><Palette className="h-10 w-10" aria-hidden /></div>
-                  )}
-                </div>
+               <div className="aspect-square w-full overflow-hidden bg-[var(--mint)]/40">
+  {w.image ? (
+    /\.(mp4|webm)(\?|$)/i.test(w.image) ? (
+      <video
+        src={w.image}
+        className="h-full w-full object-cover"
+        controls
+        playsInline
+        preload="metadata"
+      />
+    ) : (
+      <img
+        src={w.image}
+        alt={w.imageAlt}
+        className="h-full w-full object-cover"
+        loading="lazy"
+      />
+    )
+  ) : (
+    <div className="grid h-full place-items-center text-primary/60">
+      <Palette className="h-10 w-10" aria-hidden />
+    </div>
+  )}
+</div>
                 <figcaption className="p-3">
                   <p className="font-display text-base">{w.title}</p>
                   <p className="text-xs text-muted-foreground">{w.date}</p>
