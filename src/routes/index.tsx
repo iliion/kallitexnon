@@ -123,13 +123,30 @@ function HomePage() {
                     <div className="grid h-full place-items-center text-primary/60"><Palette className="h-12 w-12" aria-hidden /></div>
                   )}
                 </div> */}
-                <div className="aspect-[3/4] w-full overflow-hidden bg-[var(--lavender)]/40">
-                  {w.image ? (
-                    <img src={w.image} alt={w.imageAlt} className="h-full w-full object-cover object-top transition-transform duration-300 hover:scale-110" loading="lazy" />
-                  ) : (
-                    <div className="grid h-full place-items-center text-primary/60"><Palette className="h-12 w-12" aria-hidden /></div>
-                  )}
-                </div>
+             <div className="aspect-[3/4] w-full overflow-hidden bg-[var(--lavender)]/40">
+  {w.image ? (
+    /\.(mp4|webm)(\?|$)/i.test(w.image) ? (
+      <video
+        src={w.image}
+        className="h-full w-full object-cover"
+        controls
+        playsInline
+        preload="metadata"
+      />
+    ) : (
+      <img
+        src={w.image}
+        alt={w.imageAlt}
+        className="h-full w-full object-cover object-top transition-transform duration-300 hover:scale-110"
+        loading="lazy"
+      />
+    )
+  ) : (
+    <div className="grid h-full place-items-center text-primary/60">
+      <Palette className="h-12 w-12" aria-hidden />
+    </div>
+  )}
+</div>
                 <div className="p-5">
                   <p className="text-xs uppercase tracking-wider text-muted-foreground">{w.date}</p>
                   <h3 className="mt-1 font-display text-xl">{w.title}</h3>
