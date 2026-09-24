@@ -67,13 +67,33 @@ function WorkshopsPage() {
           <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {current.map((w) => (
               <article key={w.id} className="overflow-hidden rounded-2xl bg-card shadow-card transition-transform hover:-translate-y-1">
-                <div className="aspect-[4/3] w-full bg-[var(--lavender)]/40">
-                  {w.image ? (
-                    <img src={w.image} alt={w.imageAlt} className="h-full w-full object-cover" loading="lazy" />
-                  ) : (
-                    <div className="grid h-full place-items-center text-primary/60"><Palette className="h-12 w-12" aria-hidden /></div>
-                  )}
-                </div>
+               <div className="aspect-[4/3] w-full overflow-hidden bg-[var(--lavender)]/40">
+  {w.image ? (
+    (
+      w.image.startsWith("data:video/") ||
+      /\.(mp4|webm)(\?|$)/i.test(w.image)
+    ) ? (
+      <video
+        src={w.image}
+        className="h-full w-full object-cover"
+        controls
+        playsInline
+        preload="metadata"
+      />
+    ) : (
+      <img
+        src={w.image}
+        alt={w.imageAlt}
+        className="h-full w-full object-cover"
+        loading="lazy"
+      />
+    )
+  ) : (
+    <div className="grid h-full place-items-center text-primary/60">
+      <Palette className="h-12 w-12" aria-hidden />
+    </div>
+  )}
+</div>
                 <div className="p-5">
                   <p className="text-xs uppercase tracking-wider text-muted-foreground">{w.date}</p>
                   <h3 className="mt-1 font-display text-xl">{w.title}</h3>
