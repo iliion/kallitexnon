@@ -35,7 +35,7 @@ function HomePage() {
               Καλώς ήρθατε στον κόσμο του <span className="text-primary">Καλλίτεχνον Ποιώ</span>
             </h1>
             <p className="mt-5 max-w-xl text-lg text-foreground/80">
-              Εδώ, η τέχνη γίνεται εμπειρία. Θεματικά εικαστικά workshops για όλες τις ηλικίες — ιστορία, αφήγηση και δημιουργία σε έναν χώρο.
+              Εδώ, η τέχνη γίνεται εμπειρία. Θεματικά εικαστικά εργαστήρια για παιδιά, εφήβους και ενήλικες στο Βέλο Κορινθίας — ιστορία, αφήγηση και δημιουργία.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/booking" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground shadow-soft transition hover:scale-[1.02] hover:bg-primary/90">
