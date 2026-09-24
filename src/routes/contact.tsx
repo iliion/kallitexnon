@@ -91,7 +91,7 @@ async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
             <div className="p-6 rounded-2xl bg-card border border-border/60 shadow-sm">
               <h3 className="font-display text-lg font-semibold text-foreground flex items-start gap-3">
                 {/* aria-hidden hides the standalone Greek question mark from screen readers */}
-                <span className="text-primary font-serif select-none" aria-hidden="true">;</span>
+               
                 <span>Χρειάζεται το παιδί να έχει προηγούμενη εμπειρία ή να ξέρει να ζωγραφίζει;</span>
               </h3>
               <p className="mt-3 pl-5 text-sm md:text-base text-muted-foreground leading-relaxed">
