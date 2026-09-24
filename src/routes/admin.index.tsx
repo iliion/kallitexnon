@@ -171,13 +171,12 @@ function EditDialog({ workshop, onClose }: { workshop: Workshop; onClose: () => 
 
   setSaveError("");
 
-  const reader = new FileReader();
+   const reader = new FileReader();
   reader.onload = () => set("image", String(reader.result || ""));
   reader.readAsDataURL(f);
 }
-  }
 
-  function validate(): boolean {
+function validate(): boolean {
     const next: Partial<Record<keyof Workshop, string>> = {};
     if (!w.title.trim()) next.title = "Υποχρεωτικό πεδίο";
     if (!w.date.trim()) next.date = "Υποχρεωτικό πεδίο";
