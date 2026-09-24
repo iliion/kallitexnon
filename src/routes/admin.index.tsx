@@ -142,12 +142,39 @@ function EditDialog({ workshop, onClose }: { workshop: Workshop; onClose: () => 
     if (errors[k]) setErrors((prev) => ({ ...prev, [k]: undefined }));
   }
 
-  function onFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const f = e.target.files?.[0];
-    if (!f) return;
-    const reader = new FileReader();
-    reader.onload = () => set("image", String(reader.result || ""));
-    reader.readAsDataURL(f);
+ function onFile(e: React.ChangeEvent<HTMLInputElement>) {
+  const f = e.target.files?.[0];
+  if (!f) return;
+
+  const allowedTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/gif",
+    "video/mp4",
+    "video/webm",
+  ];
+
+  if (!allowedTypes.includes(f.type)) {
+    setSaveError("Επιτρέπονται μόνο εικόνες JPG, PNG, WEBP, GIF ή βίντεο MP4/WEBM.");
+    e.target.value = "";
+    return;
+  }
+
+  const maxSize = 10 * 1024 * 1024;
+
+  if (f.size > maxSize) {
+    setSaveError("Το αρχείο είναι πολύ μεγάλο. Μέγιστο μέγεθος: 10 MB.");
+    e.target.value = "";
+    return;
+  }
+
+  setSaveError("");
+
+  const reader = new FileReader();
+  reader.onload = () => set("image", String(reader.result || ""));
+  reader.readAsDataURL(f);
+}
   }
 
   function validate(): boolean {
