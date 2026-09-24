@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import imgPartner from "@/assets/footer_logos_el.svg?url";
+
 import { SiInstagram, SiFacebook, SiTiktok, SiGmail, SiGooglemaps } from '@icons-pack/react-simple-icons';
 
 
@@ -58,15 +58,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* Logo Row - Full Width */}
-        <div className="mt-8 border-t border-border/60 pt-8">
-          <img
-            src={imgPartner}
-            alt="Partner organization logo"
-            className="max-w-xl h-auto mx-auto"
-            loading="lazy"
-          />
-        </div>
+       
 
       </div>
 
