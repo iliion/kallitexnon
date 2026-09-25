@@ -37,6 +37,7 @@ export function SiteIntro() {
 
   function finishIntro() {
     sessionStorage.setItem(INTRO_KEY, "true");
+    window.dispatchEvent(new Event("kallitexnon:intro-finished"));
     setFading(true);
 
     setTimeout(() => {
