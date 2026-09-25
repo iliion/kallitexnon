@@ -12,7 +12,7 @@ import {
 import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-
+import { SiteIntro } from "@/components/SiteIntro";
 
 function NotFoundComponent() {
   return (
@@ -94,6 +94,7 @@ function RootComponent() {
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground">
         Μετάβαση στο περιεχόμενο
       </a>
+      {!isAdmin && <SiteIntro />}
       {!isAdmin && <SiteHeader />}
       <main id="main">
         <Outlet />
