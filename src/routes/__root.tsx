@@ -75,6 +75,91 @@ function RootShell({ children }: { children: React.ReactNode }) {
     <html lang="el">
       <head>
         <script src="https://cdn.userway.org/widget.js" data-account="Ii9jhLERVY"></script>
+      <script
+  dangerouslySetInnerHTML={{
+    __html: `
+      (function () {
+        var GA_ID = 'G-ZZDHP6MVT4';
+        var CONSENT_KEY = 'kallitexnon-analytics-consent';
+        var INTRO_KEY = 'kallitexnon-intro-seen';
+
+        function loadAnalytics() {
+          if (window.__kallitexnonGaLoaded) return;
+          window.__kallitexnonGaLoaded = true;
+
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function () {
+            window.dataLayer.push(arguments);
+          };
+
+          window.gtag('js', new Date());
+          window.gtag('config', GA_ID);
+
+          var script = document.createElement('script');
+          script.async = true;
+          script.src =
+            'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+          document.head.appendChild(script);
+        }
+
+        function showConsent() {
+          if (document.getElementById('analytics-consent')) return;
+
+          var box = document.createElement('div');
+          box.id = 'analytics-consent';
+          box.style.cssText =
+            'position:fixed;left:16px;right:16px;bottom:16px;' +
+            'max-width:650px;margin:auto;padding:18px;' +
+            'background:#fff;color:#111;border-radius:12px;' +
+            'box-shadow:0 5px 25px rgba(0,0,0,.25);z-index:999999;';
+
+          box.innerHTML =
+            '<strong>Cookies & Στατιστικά</strong>' +
+            '<p style="margin:8px 0 14px;">Χρησιμοποιούμε προαιρετικά στατιστικά cookies για να καταλαβαίνουμε πώς χρησιμοποιείται η ιστοσελίδα και να τη βελτιώνουμε.</p>' +
+            '<button id="accept-analytics" style="padding:9px 14px;margin-right:8px;cursor:pointer;">Αποδοχή</button>' +
+            '<button id="decline-analytics" style="padding:9px 14px;cursor:pointer;">Μόνο απαραίτητα</button>';
+
+          document.body.appendChild(box);
+
+          document.getElementById('accept-analytics').onclick = function () {
+            localStorage.setItem(CONSENT_KEY, 'accepted');
+            box.remove();
+            loadAnalytics();
+          };
+
+          document.getElementById('decline-analytics').onclick = function () {
+            localStorage.setItem(CONSENT_KEY, 'declined');
+            box.remove();
+          };
+        }
+
+        function startConsent() {
+          var choice = localStorage.getItem(CONSENT_KEY);
+
+          if (choice === 'accepted') {
+            loadAnalytics();
+            return;
+          }
+
+          if (choice === 'declined') return;
+
+          var timer = setInterval(function () {
+            if (sessionStorage.getItem(INTRO_KEY) === 'true') {
+              clearInterval(timer);
+              setTimeout(showConsent, 800);
+            }
+          }, 250);
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', startConsent);
+        } else {
+          startConsent();
+        }
+      })();
+    `,
+  }}
+></script>
         <HeadContent /></head>
       <body>
         {children}
