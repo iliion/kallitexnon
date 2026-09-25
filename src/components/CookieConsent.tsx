@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const GA_ID = "G-ZZDHP6MVT4";
+const GA_ID = "G-ZZDHP6WVT4";
 const CONSENT_KEY = "kallitexnon-analytics-consent";
 const INTRO_KEY = "kallitexnon-intro-seen";
 const INTRO_EVENT = "kallitexnon:intro-finished";
